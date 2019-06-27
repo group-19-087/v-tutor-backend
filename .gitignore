@@ -31,3 +31,6 @@ uploads/*
 
 # exception to the rule
 !uploads/.gitkeep 
+
+# env
+.env
