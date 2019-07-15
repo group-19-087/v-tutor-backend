@@ -60,17 +60,17 @@ router.get('/', function(req, res, next) {
   res.send('route to get video resources');
 });
 
-<<<<<<< HEAD
 // router.post('/upload', upload.single('file'), function (req, res, next) {
 //     res.send('Successfully uploaded ' + req.file.length + ' files!'); 
 // })
 
 router.post('/upload', uploadToS3, function (req, res, next) {
   res.status(200).json({response: 'Successfully uploaded files'});
-=======
-router.post('/upload', upload.single('file'), function (req, res, next) {
-  res.send('Successfully uploaded ' + req.file.length + ' files!'); 
 })
+  
+// router.post('/upload', upload.single('file'), function (req, res, next) {
+//   res.send('Successfully uploaded ' + req.file.length + ' files!'); 
+// })
 
 router.post('/notifyuploaded', function (req, res, next) {
   const msgType = req.get('x-amz-sns-message-type');
@@ -87,7 +87,6 @@ router.post('/notifyuploaded', function (req, res, next) {
     }
   }
   res.send('Notify Uploaded Endpoint called');
->>>>>>> master
 })
 
 
