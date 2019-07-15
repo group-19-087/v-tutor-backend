@@ -43,12 +43,18 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload', upload.single('file'), function (req, res, next) {
-  
-
   res.send('Successfully uploaded ' + req.file.length + ' files!'); 
-  
 })
 
+router.post('/notifyuploaded', function (req, res, next) {
+  const msgType = req.get('x-amz-sns-message-type');
+  if(msgType == null) {
+    console.log("x-amz-sns-message-type header not found")
+  } else {
+    console.log(req.body);
+  }
+  res.send('Notify Uploaded Endpoint called'); 
+})
 
 
 module.exports = router;
