@@ -60,12 +60,34 @@ router.get('/', function(req, res, next) {
   res.send('route to get video resources');
 });
 
+<<<<<<< HEAD
 // router.post('/upload', upload.single('file'), function (req, res, next) {
 //     res.send('Successfully uploaded ' + req.file.length + ' files!'); 
 // })
 
 router.post('/upload', uploadToS3, function (req, res, next) {
   res.status(200).json({response: 'Successfully uploaded files'});
+=======
+router.post('/upload', upload.single('file'), function (req, res, next) {
+  res.send('Successfully uploaded ' + req.file.length + ' files!'); 
+})
+
+router.post('/notifyuploaded', function (req, res, next) {
+  const msgType = req.get('x-amz-sns-message-type');
+  if(msgType == null) {
+    console.log("x-amz-sns-message-type header not found")
+  } else {
+    console.log(msgType);
+    if(msgType == 'SubscriptionConfirmation') {
+      console.log('This is a subscription confirmation message');
+      console.log('URL : ' + req.body.SubscribeURL);
+    } else if (msgType == 'Notification') {
+      console.log('SNS notification received');
+      console.log('Request body : ' + JSON.stringify(req.body));
+    }
+  }
+  res.send('Notify Uploaded Endpoint called');
+>>>>>>> master
 })
 
 
