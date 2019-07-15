@@ -54,10 +54,12 @@ router.post('/notifyuploaded', function (req, res, next) {
     console.log(msgType);
     if(msgType == 'SubscriptionConfirmation') {
       console.log('This is a subscription confirmation message');
+      console.log('URL : ' + req.body.SubscribeURL);
     }
   }
-  res.send('Notify Uploaded Endpoint called'); 
+  res.send('Notify Uploaded Endpoint called');
 })
+
 
 
 module.exports = router;
