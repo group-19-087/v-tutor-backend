@@ -55,6 +55,9 @@ router.post('/notifyuploaded', function (req, res, next) {
     if(msgType == 'SubscriptionConfirmation') {
       console.log('This is a subscription confirmation message');
       console.log('URL : ' + req.body.SubscribeURL);
+    } else if (msgType == 'Notification') {
+      console.log('SNS notification received');
+      console.log('Request body : ' + JSON.stringify(req.body));
     }
   }
   res.send('Notify Uploaded Endpoint called');
