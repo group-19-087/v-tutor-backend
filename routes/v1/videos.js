@@ -51,7 +51,10 @@ router.post('/notifyuploaded', function (req, res, next) {
   if(msgType == null) {
     console.log("x-amz-sns-message-type header not found")
   } else {
-    console.log(req.body);
+    console.log(msgType);
+    if(msgType == 'SubscriptionConfirmation') {
+      console.log('This is a subscription confirmation message');
+    }
   }
   res.send('Notify Uploaded Endpoint called'); 
 })
