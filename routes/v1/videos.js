@@ -85,10 +85,13 @@ router.post('/notifyuploaded', function (req, res, next) {
     } else if (msgType == 'Notification') {
       console.log('SNS notification received');
 
-      const key = req.body.Message.Records[0].object.key;
-      const bucket = req.body.Message.Records[0].s3.bucket.name;
+      // const key = req.body.Message.Records[0].object.key;
+      // const bucket = req.body.Message.Records[0].s3.bucket.name;
 
-      console.log('Message : ' + req.body.Message);
+      const message = JSON.parse(req.body.Message);
+      const bucket =  message.Records[0].s3.bucket.name;
+      const key =  message.Records[0].s3.object.key; 
+      
       console.log('Bucket : ' + bucket);
       console.log('Object key : ' + key);
 
