@@ -4,7 +4,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
 var util = require('./util');
+var mongoose = require('mongoose');
+
 var jwt = require('./helpers/jwt')
+
+require('dotenv').config()
 
 // routes
 var indexRouter = require('./routes/index');
@@ -30,6 +34,10 @@ app.use(function(req, res, next) {
     });
 
 // app.use(jwt());
+var mongoUser = process.env.MONGO_USER;
+var mongoPass = process.env.MONGO_PASSWORD;
+
+mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +'@ds151066.mlab.com:51066/cdap-19-087', {useNewUrlParser: true});
 
 app.use('/', indexRouter);
 app.use('/v1', v1Router);
