@@ -77,29 +77,29 @@ router.post('/notifyuploaded', function (req, res, next) {
   const msgType = req.get('x-amz-sns-message-type');
   if(msgType == null) {
     console.log("x-amz-sns-message-type header not found")
+    res.send('x-amz-sns-message-type header not found');
   } else {
     console.log(msgType);
     if(msgType == 'SubscriptionConfirmation') {
       console.log('This is a subscription confirmation message');
       console.log('URL : ' + req.body.SubscribeURL);
+      res.send('Notify Uploaded Endpoint called');
     } else if (msgType == 'Notification') {
-      console.log('SNS notification received');
-
-      // const key = req.body.Message.Records[0].object.key;
-      // const bucket = req.body.Message.Records[0].s3.bucket.name;
-
+      
       const message = JSON.parse(req.body.Message);
       const bucket =  message.Records[0].s3.bucket.name;
       const key =  message.Records[0].s3.object.key; 
-      
+
+      console.log('SNS notification received');
       console.log('Bucket : ' + bucket);
       console.log('Object key : ' + key);
+      // finish http request so it is non-blocking for SNS
+      res.status(200).send('Notify Uploaded Endpoint called');
 
+      // Then handle frame extraction
       extractFrames(bucket, key);
-      
     }
   }
-  res.send('Notify Uploaded Endpoint called');
 })
 
 
