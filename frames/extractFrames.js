@@ -7,7 +7,7 @@ const s3 = new AWS.S3();
 module.exports.extract = function (bucket, key) {
     const params = { Bucket: bucket, Key: key };
     const url = s3.getSignedUrl('getObject', params);
-    const tmpDirectory = __dirname + '/tmp/frames';
+    const tmpDirectory = __dirname + '/extracted';
     console.log('The URL is', url);
     console.log('tmpDirectory : ' + `${tmpDirectory}/frame-%04d.jpg`);
 
