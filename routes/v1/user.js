@@ -30,7 +30,6 @@ function registerUser(req, res, next) {
     userService.saveUser(req.body)
         .then(user => {
             console.log(user);
-            
             user ? res.json(user) : res.status(200).json({ message: 'User created successfully' })
         })
         .catch(err => next(err));

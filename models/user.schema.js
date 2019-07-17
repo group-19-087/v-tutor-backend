@@ -12,7 +12,8 @@ var userSchema = new Schema({
     email: {
         type: String,
         unique: true
-    }
+    },
+    lecturer: Boolean
 });
 
 var User = mongoose.model('User', userSchema);

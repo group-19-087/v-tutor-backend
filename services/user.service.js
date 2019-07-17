@@ -39,7 +39,8 @@ async function authenticate({ username, password }) {
                     username: res.username,
                     firstName: res.firstName,
                     lastName: res.lastName,
-                    email: res.email
+                    email: res.email,
+                    lecturer: res.lecturer
                 }, config.secret);
                 resolve({
                     token
@@ -66,6 +67,9 @@ async function getAll() {
 async function saveUser(userdata) {
     const newUser = new user(userdata);
 
+    console.log(userdata);
+    
+
     return new Promise((resolve, reject) => {
         newUser.save((err, res) => {
             if (err) {
@@ -75,9 +79,11 @@ async function saveUser(userdata) {
                     username: res.username,
                     firstName: res.firstName,
                     lastName: res.lastName,
-                    email: res.email
+                    email: res.email,
+                    lecturer: res.lecturer
                 }, config.secret);
                 resolve({
+                    
                     token
                 });
             }
