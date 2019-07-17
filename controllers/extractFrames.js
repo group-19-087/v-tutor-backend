@@ -16,7 +16,7 @@ module.exports.extract = function (bucket, key) {
             fs.chmod( tmpDirectory, '755', function(err){
                 if(err){
                     console.log(err);
-                    reject(err)
+                    throw err;
                 }
                 console.log('Created directory');
             });

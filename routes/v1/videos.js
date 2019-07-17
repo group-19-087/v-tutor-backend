@@ -97,7 +97,12 @@ router.post('/notifyuploaded', function (req, res, next) {
       res.status(200).send('Notify Uploaded Endpoint called');
 
       // Then handle frame extraction
-      extractFrames(bucket, key);
+      extractFrames(bucket, key).then((data) => {
+        console.log('promise data : ' + data)
+      }).catch((err) => {
+        console.log(err);
+      });
+
     }
   }
 })
