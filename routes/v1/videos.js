@@ -3,7 +3,7 @@ var router = express.Router();
 var multer  = require('multer');
 var AWS = require('aws-sdk');
 var multerS3 = require('multer-s3');
-var extractFrames = require('../../controllers/extractFrames').extract;
+var extractFrames = require('../../frames/extractFrames').extract;
 
 require('dotenv').config()
 
