@@ -3,6 +3,7 @@ var router = express.Router();
 var multer  = require('multer');
 var AWS = require('aws-sdk');
 var multerS3 = require('multer-s3');
+var extractFrames = require('../../controllers/extractFrames').extract;
 
 require('dotenv').config()
 
@@ -83,7 +84,16 @@ router.post('/notifyuploaded', function (req, res, next) {
       console.log('URL : ' + req.body.SubscribeURL);
     } else if (msgType == 'Notification') {
       console.log('SNS notification received');
-      console.log('Request body : ' + JSON.stringify(req.body));
+
+      const key = req.body.Message.Records[0].object.key;
+      const bucket = req.body.Message.Records[0].s3.bucket.name;
+
+      console.log('Message : ' + req.body.Message);
+      console.log('Bucket : ' + bucket);
+      console.log('Object key : ' + key);
+
+      extractFrames(bucket, key);
+      
     }
   }
   res.send('Notify Uploaded Endpoint called');
