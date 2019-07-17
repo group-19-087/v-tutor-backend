@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
-const spawn = require('child-process').spawn;
+const spawn = require('child_process').spawn;
 
 const s3 = new AWS.S3();
 
