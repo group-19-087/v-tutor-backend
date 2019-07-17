@@ -13,7 +13,9 @@ module.exports.extract = function (bucket, key) {
 
     return new Promise((resolve, reject) => {
         if (!fs.existsSync(tmpDirectory)) {
-            fs.mkdirSync(tmpDirectory);
+            fs.mkdirSync(tmpDirectory, {recursive: true}, (err) => {
+                console.log(err);
+            });
             fs.chmod(tmpDirectory, '755', function (err) {
                 if (err) {
                     console.log(err);
