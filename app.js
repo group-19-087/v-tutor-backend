@@ -37,7 +37,10 @@ app.use(function(req, res, next) {
 var mongoUser = process.env.MONGO_USER;
 var mongoPass = process.env.MONGO_PASSWORD;
 
-mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +'@ds151066.mlab.com:51066/cdap-19-087', {useNewUrlParser: true});
+mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +'@ds151066.mlab.com:51066/cdap-19-087', {useNewUrlParser: true})
+    .catch((err) => {
+        console.log('Unable to connect to mongoose instance ' + err);
+    });
 
 app.use('/', indexRouter);
 app.use('/v1', v1Router);

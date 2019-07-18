@@ -5,7 +5,7 @@ const spawn = require('child_process').spawn;
 const s3 = new AWS.S3();
 
 module.exports.extract = function (bucket, key) {
-    const params = { Bucket: bucket, Key: key };
+    const params = { Bucket: bucket, Key: key, Expires: 300};
     const url = s3.getSignedUrl('getObject', params);
     const tmpDirectory = __dirname + '/extracted';
     console.log('The URL is', url);
@@ -40,11 +40,14 @@ module.exports.extract = function (bucket, key) {
             if (statusCode === 0) {
                 console.log('Frames extracted');
                 resolve('Frames extracted');
+            } else {
+                console,log('Non zero exit code : ' + statusCode);
+                reject('Non zero status code');
             }
         });
 
         ffmpeg.stderr.on('data', (err) => {
-            console.log(err);
+            console.log('Error : ' + err);
             //reject(err);
         });
     })
