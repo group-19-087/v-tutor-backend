@@ -3,7 +3,7 @@ var router = express.Router();
 var multer  = require('multer');
 var AWS = require('aws-sdk');
 var multerS3 = require('multer-s3');
-var frameController = require('../../frames/extractFrames')
+var frameController = require('../../frames/frameController')
 var extractFrames = frameController.extract;
 var uploadThumbnail = frameController.uploadThumbnail;
 
