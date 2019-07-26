@@ -3,7 +3,9 @@ var router = express.Router();
 var multer  = require('multer');
 var AWS = require('aws-sdk');
 var multerS3 = require('multer-s3');
-var extractFrames = require('../../frames/extractFrames').extract;
+var frameController = require('../../frames/extractFrames')
+var extractFrames = frameController.extract;
+var uploadThumbnail = frameController.uploadThumbnail;
 
 require('dotenv').config()
 
@@ -98,7 +100,8 @@ router.post('/notifyuploaded', function (req, res, next) {
 
       // Then handle frame extraction
       extractFrames(bucket, key).then((data) => {
-        console.log('promise data : ' + data)
+        console.log('promise data : ' + data);
+        uploadThumbnail(bucket, key);
       }).catch((err) => {
         console.log(err);
       });

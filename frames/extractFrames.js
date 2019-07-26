@@ -52,3 +52,12 @@ module.exports.extract = function (bucket, key) {
         });
     })
 }
+
+module.exports.uploadThumbnail = function (bucket, key) {
+    const thumbnailFilePath = __dirname + '/extracted/frame-0001.jpg';
+    const s3Key = `${key.split("/")[0]}/thumbnail.jpg` 
+
+    console.log("THUMBNAIL FILEPATH : " + filepath);
+    console.log("S3 KEY : " + s3Key);
+}
+
