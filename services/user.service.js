@@ -65,25 +65,31 @@ async function getAll() {
 }
 
 async function saveUser(userdata) {
-    const newUser = new user(userdata);
+    userObj = {
+        username: userdata.userForm.username,
+        password: userdata.userForm.matchingPasswords.password,
+        fullname: userdata.userForm.fullname,
+        email: userdata.userForm.email,
+        lecturer: userdata.userForm.lecturer,
+        birthday: userdata.userForm.birthday,
+        gender: userdata.userForm.gender,
+        phone: userdata.userForm.countryPhone.phone,
+        bio: userdata.userForm.bio
+    }
 
-    console.log(userdata);
-    
+    const newUser = new user(userObj);
 
     return new Promise((resolve, reject) => {
         newUser.save((err, res) => {
             if (err) {
+                console.log('err-> ', err);
                 reject(err);
             } else {
                 token = jwt.sign({
                     username: res.username,
-                    firstName: res.firstName,
-                    lastName: res.lastName,
-                    email: res.email,
                     lecturer: res.lecturer
                 }, config.secret);
                 resolve({
-                    
                     token
                 });
             }
