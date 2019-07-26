@@ -62,7 +62,7 @@ module.exports.uploadThumbnail = function (bucket, key) {
         const params = {
             Bucket: bucket, 
             Key: s3Key, 
-            Body: JSON.stringify(data, null, 2)
+            Body: data
         };
         s3.upload(params, function (s3Error, data) {
             if (s3Error) throw s3Error
