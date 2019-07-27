@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-var lectureDataSchema = new Schema({
+var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
   transcript_url: String,
   tags: [String],
@@ -23,5 +23,5 @@ var lectureDataSchema = new Schema({
 })
 
 
-var LectureData = mongoose.model('LectureData', lectureDataSchema)
-module.exports = LectureData
+var MetaData = mongoose.model('MetaData', metaDataSchema)
+module.exports = MetaData

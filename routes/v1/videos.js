@@ -4,6 +4,7 @@ var multer = require('multer')
 var AWS = require('aws-sdk')
 var multerS3 = require('multer-s3')
 var frameController = require('../../frames/frameController')
+var metaDataService = require('../../services/metadata.service')
 var extractFrames = frameController.extract
 var uploadThumbnail = frameController.uploadThumbnail
 
@@ -52,9 +53,14 @@ var uploadToS3 = function (req, res, next) {
 
   upload(req, res, function (err) {
     if (err) {
-      res.status(500).json({ err: err })
+      res.status(500).json({ err: err });
     } else {
-      next()
+      metaDataService.saveMetaData({
+        id: req.body.lectureId,
+        videoTitle: req.body.lectureName,
+        description: req.body.lectureDescription
+      });
+      next();
     }
   })
 }
