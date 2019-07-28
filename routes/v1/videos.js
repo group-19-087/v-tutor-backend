@@ -5,6 +5,7 @@ var AWS = require('aws-sdk')
 var multerS3 = require('multer-s3')
 var frameController = require('../../frames/frameController')
 var metaDataService = require('../../services/metadata.service')
+var ocrService = require('../../services/ocr.service')
 var extractFrames = frameController.extract
 var uploadThumbnail = frameController.uploadThumbnail
 
@@ -107,6 +108,11 @@ router.post('/notifyuploaded', function (req, res, next) {
       extractFrames(bucket, key).then((data) => {
         console.log('promise data : ' + data)
         uploadThumbnail(bucket, key)
+        ocrService.runOCR().then((data) => {
+          console.log("promise data : " + data)
+        }).catch((err) => {
+          console.log(err)
+        })
       }).catch((err) => {
         console.log(err)
       })
