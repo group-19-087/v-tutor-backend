@@ -31,7 +31,7 @@ def extract_text(mpath_to_File, mpreprocess):
 	# the temporary file
 	text = pytesseract.image_to_string(Image.open(filename))
 	os.remove(filename)
-	return text
+	return text.encode('utf-8')
 
 # ============================================================================================
 
