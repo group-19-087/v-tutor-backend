@@ -12,7 +12,7 @@ module.exports.runOCR = function() {
         console.log('OCR Script exited successfully with code 0')
         resolve('OCR done')
       } else {
-        console, log('Non zero exit code : ' + statusCode)
+        console.log('Non zero exit code : ' + statusCode)
         reject('Non zero status code')
       }
     })
