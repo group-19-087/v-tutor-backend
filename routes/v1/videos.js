@@ -6,6 +6,7 @@ var multerS3 = require('multer-s3');
 var frameController = require('../../frames/frameController')
 var extractFrames = frameController.extract;
 var uploadThumbnail = frameController.uploadThumbnail;
+const axios = require('axios');
 
 require('dotenv').config()
 
@@ -105,10 +106,32 @@ router.post('/notifyuploaded', function (req, res, next) {
       }).catch((err) => {
         console.log(err);
       });
+      var s3url = 'https://'+bucket+'.s3.amazonaws.com/'+key;
+      var requestData = {
+          audio_src_url : s3url,
+          language_model : 'computer-science-model-3',
+          webhook_url : 'http://35.154.98.108:3000/v1/videos/notify-transcription'
+      };
 
+      axios.post('https://api.assemblyai.com/v2/transcript', requestData,
+          {headers: {'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' }} )
+          .then((res) => {
+            console.log('Response recieved : '+res)
+          })
+          .catch((err) => {
+            console.log('Error: '+ err)
+          })
     }
   }
-})
+});
+
+router.post('/notify-transcription', function (req, res) {
+    axios.post('http://35.154.98.108:5000/vtutor-transcriptions-api/v1/get-transcript', req.body).then((res) => {
+        console.log('Response recieved : '+res);
+    }).catch((err) => {
+            console.log('Error: '+ err)
+    })
+});
 
 
 
