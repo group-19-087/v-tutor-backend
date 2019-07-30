@@ -1,12 +1,13 @@
 var Module = require('../models/module.schema')
 
 module.exports = {
-  addNewTag,
-  getAllTags
+  addNewModule,
+  getAllModules,
+  updateModule
 }
   
 
-async function getAllTags() {
+async function getAllModules() {
     return Module.find((err, res) => {
         if (err) {
             return err
@@ -16,8 +17,8 @@ async function getAllTags() {
     })
 }
 
-async function addNewTag(tag) {
-    const newModule = Module(tag)
+async function addNewModule(module) {
+    const newModule = Module(module)
     return new Promise((resolve, reject) => {
         newModule.save((err, res) => {
           if (err) {
@@ -27,4 +28,16 @@ async function addNewTag(tag) {
           }
         })
       })
+}
+
+async function updateModule(id, module) {
+  return new Promise((resolve, reject) => {
+    Module.findOneAndUpdate({_id: id}, module, ((err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    }))
+  })
 }
