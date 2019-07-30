@@ -46,7 +46,13 @@ var uploadToS3 = function (req, res, next) {
       },
       key: function (req, file, cb) {
         console.log(req.body)
-        cb(null, req.body.lectureId + '/' + file.originalname)
+        if (file.fieldname === 'lectureVideo') {
+          cb(null, req.body.lectureId + '/' + file.originalname)
+        } else if (file.fieldname === 'codeFiles') {
+          cb(null, req.body.lectureId + '/code_files/' + file.originalname)
+        } else if (file.fieldname === 'lectureSlides') {
+          cb(null, req.body.lectureId + '/lecture_slides/' + file.originalname)
+        }
       }
 
     })
@@ -54,14 +60,14 @@ var uploadToS3 = function (req, res, next) {
 
   upload(req, res, function (err) {
     if (err) {
-      res.status(500).json({ err: err });
+      res.status(500).json({ err: err })
     } else {
       metaDataService.saveMetaData({
         id: req.body.lectureId,
         videoTitle: req.body.lectureName,
         description: req.body.lectureDescription
-      });
-      next();
+      })
+      next()
     }
   })
 }
@@ -89,11 +95,11 @@ router.post('/notifyuploaded', function (req, res, next) {
     res.send('x-amz-sns-message-type header not found')
   } else {
     console.log(msgType)
-    if (msgType == 'SubscriptionConfirmation') {
+    if (msgType === 'SubscriptionConfirmation') {
       console.log('This is a subscription confirmation message')
       console.log('URL : ' + req.body.SubscribeURL)
       res.send('Notify Uploaded Endpoint called')
-    } else if (msgType == 'Notification') {
+    } else if (msgType === 'Notification') {
       const message = JSON.parse(req.body.Message)
       const bucket = message.Records[0].s3.bucket.name
       const key = message.Records[0].s3.object.key
@@ -109,7 +115,7 @@ router.post('/notifyuploaded', function (req, res, next) {
         console.log('promise data : ' + data)
         uploadThumbnail(bucket, key)
         ocrService.runOCR().then((data) => {
-          console.log("promise data : " + data)
+          console.log('promise data : ' + data)
         }).catch((err) => {
           console.log(err)
         })
