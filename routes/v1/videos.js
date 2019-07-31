@@ -185,7 +185,7 @@ router.post('/notify-transcription/:id', function (req, res) {
 
 router.put('/update-comments/:id', function (req, res) {
     metaDataService.updateComments(req.params.id, req.body).then(function (data) {
-        res.status(data.status).send(data.message);
+        res.status(data.status).send(data);
     }).catch(function (err) {
         res.status(err.status).send(err.message);
     });
