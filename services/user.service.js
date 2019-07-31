@@ -24,6 +24,7 @@ async function authenticate ({ username, password }) {
       } else if (res) {
         console.log(res)
         token = jwt.sign({
+          id: res._id,
           username: res.username,
           firstName: res.firstName,
           lastName: res.lastName,
