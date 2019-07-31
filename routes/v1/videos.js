@@ -66,7 +66,21 @@ var uploadToS3 = function (req, res, next) {
       metaDataService.saveMetaData({
         id: req.body.lectureId,
         videoTitle: req.body.lectureName,
-        description: req.body.lectureDescription
+        description: req.body.lectureDescription,
+        tags: [],
+        rating: {
+          likes: [],
+          dislikes: []
+        },
+        status: 'processing',
+        slides: [],
+        code: [],
+        topics: [],
+        questions: {
+          count: "",
+          questions: []
+        },
+        comments: []
       })
       next()
     }
