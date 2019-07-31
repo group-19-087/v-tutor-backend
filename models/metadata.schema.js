@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 var Comment = new Schema({
     comment: String,
     user: String,
-    date: Date
+    date: String
 });
 
 var Topic = new Schema({
