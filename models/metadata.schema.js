@@ -1,6 +1,18 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
+var Comment = new Schema({
+    comment: String,
+    user: String,
+    date: String
+});
+
+var Topic = new Schema({
+    keywords: [String],
+    topic: String,
+    time: String
+});
+
 var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
   transcript_url: String,
@@ -14,14 +26,15 @@ var metaDataSchema = new Schema({
   thumbnailUrl: String,
   slides: [Object],
   code: [Object],
-  topics: [Object],
+  topics: [Topic],
   questions: {
     count: String,
     questions: [Object]
   },
-  comments: [Object],
+  comments: [Comment],
   module: { Type: Schema.Types.ObjectId }
 })
+
 
 var MetaData = mongoose.model('MetaData', metaDataSchema)
 module.exports = MetaData
