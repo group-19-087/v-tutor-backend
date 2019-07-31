@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
   res.header('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Content-Length' +
+    'Origin, X-Requested-With, Content-Type, Content-Length, cdap-projection-values, cdap-search-string' +
         'Accept, security-token, x-amz-sns-message-type, x-amz-sns-message-id, x-amz-sns-topic-arn')
   next()
 })
