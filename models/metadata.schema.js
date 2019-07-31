@@ -18,7 +18,7 @@ var metaDataSchema = new Schema({
   transcript_url: String,
   tags: [String],
   rating: Object,
-  status: {type: String, enum: ['processing', 'review', 'published']},
+  status: { type: String, enum: ['processing', 'review', 'published'] },
   video_url: String,
   videoTitle: { type: String, required: true },
   description: { type: String, required: true },
@@ -31,10 +31,9 @@ var metaDataSchema = new Schema({
     count: String,
     questions: [Object]
   },
-  comments: [Comment]
+  comments: [Comment],
+  module: { Type: Schema.Types.ObjectId }
 })
-
-
 
 
 var MetaData = mongoose.model('MetaData', metaDataSchema)

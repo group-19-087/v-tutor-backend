@@ -1,3 +1,5 @@
 {
-    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
+    "secret": "THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING",
+    "s3URL": "https://cdap-19-087-vtutor-lecturematerials.s3.ap-south-1.amazonaws.com/"
+
 }
