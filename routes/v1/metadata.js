@@ -12,4 +12,14 @@ router.get('/:id', async (request, response) => {
     }
 });
 
+router.get('/', async (request, response) => {
+    try {
+        const projectionValues = request.header('cdap-projection-values');
+        const data = await metadataService.getAll(projectionValues);
+        response.send(data);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 module.exports = router;

@@ -21,3 +21,7 @@ module.exports.updateMetadataById = function (metaDataId, data) {
 module.exports.findMetaDataById = async function (metaDataId, projection) {
   return MetaData.findOne({ id: metaDataId }, projection).exec();
 }
+
+module.exports.getAll = async function (projection) {
+  return MetaData.find({}, projection).exec();
+}
