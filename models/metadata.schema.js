@@ -1,11 +1,17 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-var Comments = new Schema({
+var Comment = new Schema({
     comment: String,
     user: String,
     date: Date
-})
+});
+
+var Topic = new Schema({
+    keywords: [String],
+    topic: String,
+    time: String
+});
 
 var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
@@ -20,12 +26,12 @@ var metaDataSchema = new Schema({
   thumbnailUrl: String,
   slides: [Object],
   code: [Object],
-  topics: [Object],
+  topics: [Topic],
   questions: {
     count: String,
     questions: [Object]
   },
-  comments: [Comments]
+  comments: [Comment]
 })
 
 
