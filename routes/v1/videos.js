@@ -4,6 +4,7 @@ var multer = require('multer')
 var AWS = require('aws-sdk')
 var multerS3 = require('multer-s3')
 var frameController = require('../../frames/frameController')
+var videoController = require('../../controllers/videoController')
 var metaDataService = require('../../services/metadata.service')
 var ocrService = require('../../services/ocr.service')
 var extractFrames = frameController.extract
@@ -104,12 +105,14 @@ router.post('/notifyuploaded', function (req, res, next) {
       // finish http request so it is non-blocking for SNS
       res.status(200).send('Notify Uploaded Endpoint called')
 
+      videoController.updateVideoURL(key);
+
       // Then handle frame extraction
       extractFrames(bucket, key).then((data) => {
-        console.log('promise data : ' + data)
+        console.log('extract frames promise data : ' + data)
         uploadThumbnail(bucket, key)
         ocrService.runOCR().then((data) => {
-          console.log("promise data : " + data)
+          console.log("ocr promise data : " + data)
         }).catch((err) => {
           console.log(err)
         })
