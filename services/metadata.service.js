@@ -17,3 +17,7 @@ module.exports.updateMetadataById = function (metaDataId, data) {
   });
 }
 
+// Projection is values separated by spaces (Eg: "video_url thumbnailUrl")
+module.exports.findMetaDataById = async function (metaDataId, projection) {
+  return MetaData.findOne({ id: metaDataId }, projection).exec();
+}
