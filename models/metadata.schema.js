@@ -32,7 +32,9 @@ var metaDataSchema = new Schema({
     questions: [Object]
   },
   comments: [Comment],
-  module: { Type: Schema.Types.ObjectId }
+  module: { type: Schema.Types.ObjectId },
+  date: { type: Date, default: Date.now() },
+  owner: { type: Schema.Types.ObjectId }
 })
 
 
