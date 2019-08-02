@@ -1,4 +1,5 @@
 const moduleService = require('../services/module.service')
+const metadataService = require('../services/metadata.service')
 
 exports.getAllTags = function (req, res, next) {
   moduleService.getAllModules()
@@ -23,4 +24,14 @@ exports.updateModule = function (req, res, next) {
     .catch(err => {
       next(err)
     })
+}
+
+exports.getModuleContent = function (req, res, next) {
+  moduleService.getModuleById(req.params.id, "name description")
+    .then(module => {
+      metadataService.findMetaDataByModule(req.params.id, "id videoTitle thumbnailUrl description")
+        .then(content => {
+          res.json({ module: module, videos: content })
+        }).catch(err => next(err))
+    }).catch(err => next(err))
 }
