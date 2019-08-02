@@ -29,7 +29,8 @@ async function authenticate ({ username, password }) {
           firstName: res.firstName,
           lastName: res.lastName,
           email: res.email,
-          lecturer: res.lecturer
+          lecturer: res.lecturer,
+          profilePictureUrl: res.profilePictureUrl
         }, config.secret)
         resolve({
           token
@@ -61,7 +62,8 @@ async function saveUser (userdata) {
     birthday: userdata.userForm.birthday,
     gender: userdata.userForm.gender,
     phone: userdata.userForm.countryPhone.phone,
-    bio: userdata.userForm.bio
+    bio: userdata.userForm.bio,
+    profilePictureUrl: "assets/images/users/1.jpg"
   }
 
   const newUser = new User(userObj)

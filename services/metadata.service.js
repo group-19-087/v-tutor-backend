@@ -1,4 +1,5 @@
 var MetaData = require('../models/metadata.schema')
+var ObjectId = require('mongoose').Types.ObjectId; 
 
 
 module.exports.saveMetaData = function (data) {
@@ -42,6 +43,18 @@ module.exports.updateMetadataById = function (metaDataId, data) {
 // Projection is values separated by spaces (Eg: "video_url thumbnailUrl")
 module.exports.findMetaDataById = async function (metaDataId, projection) {
   return MetaData.findOne({ id: metaDataId }, projection).exec();
+}
+
+module.exports.findMetaDataByModule = async function (moduleId, projection) {
+  return new Promise((resolve, reject) => {
+    MetaData.find({ module: new ObjectId(moduleId) }, projection, ((err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    }))
+  })
 }
 
 module.exports.getAll = async function (projection) {
