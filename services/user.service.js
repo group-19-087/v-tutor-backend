@@ -62,7 +62,8 @@ async function saveUser (userdata) {
     birthday: userdata.userForm.birthday,
     gender: userdata.userForm.gender,
     phone: userdata.userForm.countryPhone.phone,
-    bio: userdata.userForm.bio
+    bio: userdata.userForm.bio,
+    profilePictureUrl: "assets/images/users/1.jpg"
   }
 
   const newUser = new User(userObj)

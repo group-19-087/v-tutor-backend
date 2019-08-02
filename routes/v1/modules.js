@@ -4,6 +4,7 @@ const monduleController = require('../../controllers/module.controller')
 
 module.exports = router
 
+router.get('/:id', getModuleContent)
 router.post('/', addModule)
 router.get('/', getAll)
 router.put('/', updateModule)
@@ -22,4 +23,10 @@ function updateModule (req, res, next) {
     console.log('update Module');
     console.log(req.query);
     return monduleController.updateModule(req, res, next)
+}
+
+function getModuleContent (req, res, next) {
+    console.log('get Module content');
+    console.log(req.params.id);
+    return monduleController.getModuleContent(req, res, next)
 }

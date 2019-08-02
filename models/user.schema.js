@@ -41,9 +41,7 @@ var userSchema = new Schema({
   bio: {
     type: String
   },
-  profilePictureUrl:{
-    type: String
-  }
+  profilePictureUrl: String
 })
 
 userSchema.pre('save', function (next) {
