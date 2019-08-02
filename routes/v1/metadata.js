@@ -23,6 +23,15 @@ router.get('/:id', async (request, response) => {
     }
 });
 
+router.put('/:id', (request, response) => {
+    try {
+        metadataService.updateMetadataById(request.params.id, request.body);
+        response.status(200).send(request.body);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 router.get('/', async (request, response) => {
     try {
         const projectionValues = request.header('cdap-projection-values');
