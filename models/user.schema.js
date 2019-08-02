@@ -40,6 +40,9 @@ var userSchema = new Schema({
   },
   bio: {
     type: String
+  },
+  profilePictureUrl:{
+    type: String
   }
 })
 

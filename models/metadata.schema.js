@@ -4,7 +4,8 @@ var Schema = mongoose.Schema
 var Comment = new Schema({
     comment: String,
     user: String,
-    date: String
+    date: String,
+    picUrl: String
 });
 
 var Topic = new Schema({

@@ -29,7 +29,8 @@ async function authenticate ({ username, password }) {
           firstName: res.firstName,
           lastName: res.lastName,
           email: res.email,
-          lecturer: res.lecturer
+          lecturer: res.lecturer,
+          profilePictureUrl: res.profilePictureUrl
         }, config.secret)
         resolve({
           token
