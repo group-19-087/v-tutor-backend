@@ -12,7 +12,7 @@ module.exports.saveMetaData = function (data) {
 module.exports.updateComments = function (id, comment) {
     return new Promise(function (resolve, reject) {
         MetaData.findOneAndUpdate({_id: id}, { $push: { comments: comment}}).then(function () {
-            resolve({status: 201, message: "Record updated"});
+            resolve({status: 200, message: "Record updated"});
         }).catch(function (reason) {
             reject({status: 500, message: "Error "+reason});
         });
@@ -22,7 +22,27 @@ module.exports.updateComments = function (id, comment) {
 module.exports.updateTopics = function (id, topic) {
     return new Promise(function (resolve, reject) {
         MetaData.findOneAndUpdate({_id: id}, { $push: { topics: topic}}).then(function () {
-            resolve({status: 201, message: "Record updated"});
+            resolve({status: 200, message: "Record updated"});
+        }).catch(function (reason) {
+            reject({status: 500, message: "Error "+reason});
+        });
+    })
+}
+
+module.exports.updateStatus = function (id, data) {
+    return new Promise(function (resolve, reject) {
+        MetaData.findOneAndUpdate({_id: id}, data).then(function () {
+            resolve({status: 200, message: "Record updated"});
+        }).catch(function (reason) {
+            reject({status: 500, message: "Error "+reason});
+        });
+    })
+}
+
+module.exports.getVideoByStatus = function (status) {
+    return new Promise(function (resolve, reject) {
+        MetaData.find({status: status}).exec().then(function (data) {
+            resolve({status: 200, data: data});
         }).catch(function (reason) {
             reject({status: 500, message: "Error "+reason});
         });
@@ -58,7 +78,7 @@ module.exports.findMetaDataByModule = async function (moduleId, projection) {
 }
 
 module.exports.getAll = async function (projection) {
-  return MetaData.find({}, projection).exec();
+  return MetaData.find({status: 'published'}, projection).exec();
 }
 
 module.exports.search = async function (searchTerm, projection) {

@@ -199,4 +199,22 @@ router.put('/update-topics/:id', function (req, res) {
     });
 })
 
+router.put('/update-status/:id', function (req, res) {
+    metaDataService.updateStatus(req.params.id, req.body).then(function (data) {
+        res.status(data.status).send(data);
+    }).catch(function (err) {
+        res.status(err.status).send(err.message);
+    });
+})
+
+router.get('/get-by-status/:status', function (req, res) {
+    metaDataService.getVideoByStatus(req.params.status).then(function (data) {
+        res.status(data.status).send(data.data);
+    }).catch(function (err) {
+        res.status(err.status).send(err.message);
+    });
+})
+
+
+
 module.exports = router
