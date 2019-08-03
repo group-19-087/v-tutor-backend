@@ -37,6 +37,9 @@ var metaDataSchema = new Schema({
   owner: { type: Schema.Types.ObjectId }
 })
 
+const index = { tags: 'text' };
+metaDataSchema.index(index);
+
 
 var MetaData = mongoose.model('MetaData', metaDataSchema)
 module.exports = MetaData
