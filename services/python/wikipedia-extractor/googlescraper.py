@@ -10,7 +10,7 @@ def getUrls(keyword):
         'num_pages_for_keyword': 1,
         'scrape_method': 'http',
         'do_caching': 'False',
-
+        'print_results': 'summarize'
     }
 
     try:

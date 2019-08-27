@@ -20,5 +20,4 @@ for line in wiki.splitlines():
     print(line)
     sys.stdout.flush()
 
-print('success')
 sys.stdout.flush()
