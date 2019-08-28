@@ -192,19 +192,11 @@ router.put('/update-comments/:id', function (req, res) {
 })
 
 router.put('/update-topics/:id', function (req, res) {
-<<<<<<< HEAD
   metaDataService.updateTopics(req.params.id, req.body).then(function (data) {
     res.status(data.status).send(data.message);
   }).catch(function (err) {
     res.status(err.status).send(err.message);
   });
-=======
-    metaDataService.updateTopics(req.params.id, req.body).then(function (data) {
-        res.status(data.status).send(data);
-    }).catch(function (err) {
-        res.status(err.status).send(err);
-    });
->>>>>>> master
 })
 
 router.put('/update-status/:id', function (req, res) {
