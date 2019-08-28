@@ -21,7 +21,7 @@ module.exports.updateComments = function (id, comment) {
 
 module.exports.updateTopics = function (id, topic) {
     return new Promise(function (resolve, reject) {
-        MetaData.findOneAndUpdate({_id: id}, { $push: { topics: topic}}).then(function () {
+        MetaData.findOneAndUpdate({_id: id}, topic).then(function () {
             resolve({status: 200, message: "Record updated"});
         }).catch(function (reason) {
             reject({status: 500, message: "Error "+reason});
