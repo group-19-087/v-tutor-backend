@@ -12,6 +12,10 @@ Desktop.ini
 .directory
 *~
 
+# python
+.scrapecache
+__pycache__
+google_scraper.db
 
 # npm
 node_modules
