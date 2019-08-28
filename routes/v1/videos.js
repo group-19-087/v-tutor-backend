@@ -98,7 +98,7 @@ router.get('/', function (req, res, next) {
 // })
 
 router.post('/upload', uploadToS3, function (req, res, next) {
-  questiongenerationService.generateQuestions(req.body.lectureId, req.body.lectureName) // change lectureName to keyworkd
+  questiongenerationService.generateQuestions(req.body.lectureId, req.body.keyword) // change lectureName to keyworkd
   res.status(200).json({ response: 'Successfully uploaded files' })
 })
 // router.post('/upload', upload.single('file'), function (req, res, next) {
