@@ -14,6 +14,12 @@ var Topic = new Schema({
     time: String
 });
 
+var Transcript = new Schema({
+    paragraph: String,
+    time: String,
+    seconds: Number
+});
+
 var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
   transcript_url: String,
@@ -35,7 +41,8 @@ var metaDataSchema = new Schema({
   comments: [Comment],
   module: { type: Schema.Types.ObjectId },
   date: { type: Date, default: Date.now() },
-  owner: { type: Schema.Types.ObjectId }
+  owner: { type: Schema.Types.ObjectId },
+  transcript : [Transcript]
 })
 
 const index = { tags: 'text' };
