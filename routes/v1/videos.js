@@ -7,6 +7,7 @@ var frameController = require('../../frames/frameController')
 var videoController = require('../../controllers/video.controller')
 var metaDataService = require('../../services/metadata.service')
 var ocrService = require('../../services/ocr.service')
+var questiongenerationService = require('../../services/questiongeneration.service')
 var extractFrames = frameController.extract
 var uploadThumbnail = frameController.uploadThumbnail
 const axios = require('axios');
@@ -88,7 +89,7 @@ var uploadToS3 = function (req, res, next) {
   })
 }
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('route to get video resources');
 });
 
@@ -97,6 +98,7 @@ router.get('/', function(req, res, next) {
 // })
 
 router.post('/upload', uploadToS3, function (req, res, next) {
+  questiongenerationService.generateQuestions(req.body.lectureId, req.body.keyword) // change lectureName to keyworkd
   res.status(200).json({ response: 'Successfully uploaded files' })
 })
   
@@ -223,11 +225,11 @@ router.put('/update-status/:id', function (req, res) {
 })
 
 router.get('/get-by-status/:status', function (req, res) {
-    metaDataService.getVideoByStatus(req.params.status).then(function (data) {
-        res.status(data.status).send(data.data);
-    }).catch(function (err) {
-        res.status(err.status).send(err.message);
-    });
+  metaDataService.getVideoByStatus(req.params.status).then(function (data) {
+    res.status(data.status).send(data.data);
+  }).catch(function (err) {
+    res.status(err.status).send(err.message);
+  });
 })
 
 
