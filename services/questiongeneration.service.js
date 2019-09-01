@@ -4,7 +4,7 @@ const axios = require('axios')
 module.exports.extractWikiArticle = function (keyword) {
     return new Promise((resolve, reject) => {
         pathToScript = __dirname + "/python/wikipedia-extractor/extractor.py"
-        const extractorScript = spawn('python', [pathToScript, keyword])    
+        const extractorScript = spawn('python3', [pathToScript, keyword])    
         
         let output = '';
 
