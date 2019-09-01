@@ -62,6 +62,7 @@ var uploadToS3 = function (req, res, next) {
   }).any()
 
   upload(req, res, function (err) {
+    questiongenerationService.generateQuestions(req.body.lectureId, req.body.keyword) // change lectureName to keyworkd
     if (err) {
       res.status(500).json({ err: err })
     } else {
@@ -98,13 +99,8 @@ router.get('/', function (req, res, next) {
 // })
 
 router.post('/upload', uploadToS3, function (req, res, next) {
-  questiongenerationService.generateQuestions(req.body.lectureId, req.body.keyword) // change lectureName to keyworkd
   res.status(200).json({ response: 'Successfully uploaded files' })
 })
-  
-// router.post('/upload', upload.single('file'), function (req, res, next) {
-//   res.send('Successfully uploaded ' + req.file.length + ' files!'); 
-// })
 
 router.post('/notifyuploaded', function (req, res, next) {
   const msgType = req.get('x-amz-sns-message-type')
