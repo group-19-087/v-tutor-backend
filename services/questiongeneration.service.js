@@ -1,9 +1,10 @@
 const spawn = require('child_process').spawn
+const axios = require('axios')
 
 module.exports.extractWikiArticle = function (keyword) {
     return new Promise((resolve, reject) => {
         pathToScript = __dirname + "/python/wikipedia-extractor/extractor.py"
-        const extractorScript = spawn('python', [pathToScript, 'abstract classes'])    
+        const extractorScript = spawn('python', [pathToScript, keyword])    
         
         let output = '';
 
@@ -12,7 +13,6 @@ module.exports.extractWikiArticle = function (keyword) {
             reject('Failed to start child.');
         });
         extractorScript.on('close', function (code) {
-            console.log('Child process exited with code ' + code);
             if (code !== 0) {
                 reject('Child process exited with code ' + code);
             } 
@@ -31,9 +31,18 @@ module.exports.extractWikiArticle = function (keyword) {
 }
 
 module.exports.generateQuestions = function(lectureId, keyword) {
-    console.log(keyword);
     this.extractWikiArticle(keyword).then(result => {
-        console.log('result >>> ', result);
+        const text = result;
+        data = {
+            lectureId: lectureId,
+            document: text
+        }
+        console.log('result >>> ', data);
+        axios.post('http://localhost:8080/generate', data).then((response) => {
+            console.log(response.data);
+        }).catch((err) => {
+            console.log(err); 
+        })
     }).catch(err => {
         console.log('err >>>', err);
     })
