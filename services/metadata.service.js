@@ -127,7 +127,7 @@ module.exports.getAll = async function (projection) {
 
 module.exports.search = async function (searchTerm, projection) {
   console.log("Search term " + searchTerm);
-  return MetaData.find({$text: {$search: searchTerm}}, projection).exec();
+  return MetaData.find({$text: {$search: searchTerm}, status: "published"}, projection).exec();
 }
 
 function secondsToHMS(seconds){
