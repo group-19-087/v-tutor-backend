@@ -4,7 +4,7 @@ const spawn = require('child_process').spawn
 module.exports.runOCR = function() {
   return new Promise((resolve, reject) => {
 
-    pathToScript = __dirname + "/python/main.py"
+    pathToScript = __dirname + "/python/ocr/main.py"
     const ocrScript = spawn('python', [pathToScript])
 
     ocrScript.on('exit', (statusCode) => {
