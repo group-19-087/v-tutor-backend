@@ -63,9 +63,18 @@ router.put('/:id/questions', (request, response) => {
     try {
         metadataService.updateMetadataById(request.params.id, {questions: request.body});
         response.status(200).send('Questions updated successfully');
-    } catch {
+    } catch (error) {
         response.status(500).send(error);
     }
 })
+
+router.put('/slides/:id', (request, response) => {
+    try {
+        metadataService.updateSlides(request.params.id, request.body);
+        response.status(200).send(request.body);
+    }catch (error) {
+        response.status(500).send(error);
+    }
+});
 
 module.exports = router;

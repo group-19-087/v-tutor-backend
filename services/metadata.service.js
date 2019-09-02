@@ -17,7 +17,17 @@ module.exports.updateComments = function (id, comment) {
             reject({status: 500, message: "Error "+reason});
         });
     })
-}
+};
+
+module.exports.updateSlides = function (id, slide) {
+    return new Promise(function(resolve, reject) {
+        MetaData.findOneAndUpdate({_id: id}, slide).then(function() {
+            resolve({status: 200, message: "Update Successful"});
+        }).catch(function (reason) {
+            reject({status: 500, message: "Error " + reason});
+        })
+    })
+};
 
 module.exports.updateTopics = function (id, topic) {
     return new Promise(function (resolve, reject) {
