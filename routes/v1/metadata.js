@@ -45,9 +45,6 @@ router.get('/', async (request, response) => {
 });
 
 router.post('/:id/questions', (request, response) => {
-    console.log('parm id >>> ',request.params.id);
-    
-    // console.log(util.inspect(request.body, false, null, true));
     try {
         metadataService.updateMetadataById(request.params.id, {questions: request.body});
         response.status(200).send(request.body);
@@ -58,8 +55,6 @@ router.post('/:id/questions', (request, response) => {
 })
 
 router.put('/:id/questions', (request, response) => {
-    console.log('put>>', request.body);
-    
     try {
         metadataService.updateMetadataById(request.params.id, {questions: request.body});
         response.status(200).send('Questions updated successfully');

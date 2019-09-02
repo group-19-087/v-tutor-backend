@@ -121,7 +121,7 @@ module.exports.findMetaDataById = async function (metaDataId, projection) {
 
 module.exports.findMetaDataByModule = async function (moduleId, projection) {
   return new Promise((resolve, reject) => {
-    MetaData.find({ module: new ObjectId(moduleId) }, projection, ((err, res) => {
+    MetaData.find({ module: new ObjectId(moduleId), status: "published" }, projection, ((err, res) => {
       if (err) {
         reject(err)
       } else {
@@ -137,7 +137,7 @@ module.exports.getAll = async function (projection) {
 
 module.exports.search = async function (searchTerm, projection) {
   console.log("Search term " + searchTerm);
-  return MetaData.find({$text: {$search: searchTerm}}, projection).exec();
+  return MetaData.find({$text: {$search: searchTerm}, status: "published"}, projection).exec();
 }
 
 function secondsToHMS(seconds){

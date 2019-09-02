@@ -14,7 +14,7 @@ for serp in googlescraper.getUrls(keyword):
         if pageTitle:
             links.append(pageTitle)
 
-wiki = wikipediaminer.mine_wiki_articles(links[:1])
+wiki = wikipediaminer.mine_wiki_articles(links[:2])
 
 for line in wiki.splitlines():
     print(line)

@@ -13,6 +13,6 @@ def mine_wiki_articles(page_titles):
 
     for title in page_titles:
         p_wiki = wiki_wiki.page(title)
-        content += p_wiki.text
+        content += p_wiki.summary[0:10000]
 
     return content
