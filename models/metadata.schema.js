@@ -20,6 +20,11 @@ var Transcript = new Schema({
     seconds: Number
 });
 
+var slide = new Schema({
+    slide: String,
+    timestamp: Number
+});
+
 var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
   transcript_url: String,
@@ -31,7 +36,7 @@ var metaDataSchema = new Schema({
   description: { type: String, required: true },
   duration: String,
   thumbnailUrl: String,
-  slides: [Object],
+  slides: [slide],
   code: [Object],
   topics: [Topic],
   questions: {

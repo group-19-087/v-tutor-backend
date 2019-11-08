@@ -38,7 +38,7 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             document: text
         }
         console.log('result >>> ', data);
-        axios.post('http://cdapquestiongenerationapi-env.p5wki2jfri.ap-south-1.elasticbeanstalk.com/generate', data).then((response) => {
+        axios.post('http://13.235.185.50/generate', data).then((response) => {
             console.log(response.data);
         }).catch((err) => {
             console.log(err); 
