@@ -149,7 +149,7 @@ router.post('/notifyuploaded', function (req, res, next) {
         webhook_url: 'http://13.127.182.254:3000/v1/videos/notify-transcription/' + id
       };
 
-      // Calling assenblyai for transcribing the video
+      // Calling assemblyai for transcribing the video
       axios.post('https://api.assemblyai.com/v2/transcript', requestData,
         { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
         .then((result) => {

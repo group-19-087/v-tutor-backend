@@ -1,7 +1,7 @@
 var Queue = require('bull');
 
-var ocrService = require('../../services/ocr.service')
-var frameController = require('../../frames/frameController')
+var ocrService = require('./ocr.service')
+var frameController = require('../frames/frameController')
 var extractFrames = frameController.extract
 var emptyFrameFolder = frameController.emptyFrameFolder
 var uploadThumbnail = frameController.uploadThumbnail
