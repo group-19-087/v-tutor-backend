@@ -48,7 +48,7 @@ module.exports.extract = function (bucket, key) {
     })
 
     ffmpeg.stderr.on('data', (err) => {
-      console.log('Error : ' + err)
+      console.log(err)
       // reject(err);
     })
   })
