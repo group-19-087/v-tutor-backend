@@ -7,7 +7,7 @@ ap.add_argument("--ocr_path",
                 default="/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput/")
 ap.add_argument("-c", "--code", type=str,
                 help="path to code file",
-                default="/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput/services/python/codematching/code")
+                default="/home/ubuntu/v-tutor-backend/v-tutor-backend/services/python/codematching/code")
 args = vars(ap.parse_args())
 
 matchCode.match(args["code"], args["ocr_path"])
