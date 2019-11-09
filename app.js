@@ -16,6 +16,10 @@ var v1Router = require('./routes/v1/v1')
 
 var app = express()
 
+// socket.io
+var server = require('http').Server(app)
+var io = require('socket.io')(server)
+
 app.use(logger('dev'))
 app.use(util.overrideContentType())
 app.use(bodyParser.json())
@@ -26,12 +30,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 // create a cors middleware
 app.use(function (req, res, next) {
   // set headers to allow cross origin request.
-  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200')
+  res.header('Access-Control-Allow-Credentials', true)
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
   res.header('Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Content-Length, cdap-projection-values, cdap-search-string, ' +
         'Accept, security-token, x-amz-sns-message-type, x-amz-sns-message-id, x-amz-sns-topic-arn')
   next()
+})
+
+app.use((req, res, next) => {
+    res.io = io
+    next()
 })
 
 // app.use(jwt());
@@ -52,4 +62,10 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
 app.use('/', indexRouter)
 app.use('/v1', v1Router)
 
-module.exports = app
+// io.on('connection', (socket) => {
+//     socket.emit('hello', {
+//         msg: 'helloworld'
+//     })
+// })
+
+module.exports = {app, server}
