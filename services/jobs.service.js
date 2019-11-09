@@ -13,7 +13,7 @@ jobQueue.process(function (job, done) {
     // Then handle frame extraction
     extractFrames(job.data.bucket, job.data.key).then((data) => {
         console.log('extract frames promise data : ' + data)
-        uploadThumbnail(bucket, key)
+        uploadThumbnail(job.data.bucket, job.data.key)
         ocrService.runOCR().then((data) => {
           console.log("ocr promise data : " + data)
           emptyFrameFolder();
