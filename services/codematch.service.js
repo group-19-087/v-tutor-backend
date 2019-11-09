@@ -1,7 +1,7 @@
 const fs = require('fs')
 const spawn = require('child_process').spawn
 
-module.exports.runOCR = function() {
+module.exports.runCodeMatching = function() {
   return new Promise((resolve, reject) => {
 
     pathToScript = __dirname + "/python/codematching/main.py"
@@ -17,12 +17,12 @@ module.exports.runOCR = function() {
       }
     })
 
-    ocrScript.stdout.on('data', (data) => {
+    matchScript.stdout.on('data', (data) => {
       console.log('CODE MATCH STDOUT : ' + data.toString())
       // reject(err);
     })
 
-    ocrScript.stderr.on('data', (err) => {
+    matchScript.stderr.on('data', (err) => {
       console.log('Error : ' + err)
       // reject(err);
     })
