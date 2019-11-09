@@ -11,7 +11,7 @@ var jobQueue = new Queue('job-queue');
 jobQueue.process(function (job, done) {
 
     // Then handle frame extraction
-    extractFrames(job.bucket, job.key).then((data) => {
+    extractFrames(job.data.bucket, job.data.key).then((data) => {
         console.log('extract frames promise data : ' + data)
         uploadThumbnail(bucket, key)
         ocrService.runOCR().then((data) => {
