@@ -1,13 +1,14 @@
 const AWS = require('aws-sdk')
 const fs = require('fs')
 const spawn = require('child_process').spawn
+const rimraf = require('rimraf')
 
 const s3 = new AWS.S3()
+const tmpDirectory = __dirname + '/extracted'
 
 module.exports.extract = function (bucket, key) {
   const params = { Bucket: bucket, Key: key, Expires: 300 }
   const url = s3.getSignedUrl('getObject', params)
-  const tmpDirectory = __dirname + '/extracted'
   console.log('The URL is', url)
   console.log('tmpDirectory : ' + `${tmpDirectory}/frame-%04d.jpg`)
 
@@ -51,6 +52,10 @@ module.exports.extract = function (bucket, key) {
       // reject(err);
     })
   })
+}
+
+module.exports.emptyFrameFolder = function () {
+  rimraf(`${tmpDirectory}/*`, function () { console.log('frame folder emptied'); });
 }
 
 module.exports.uploadThumbnail = function (bucket, key) {
