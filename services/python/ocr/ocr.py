@@ -56,10 +56,11 @@ def write_to_disk(string, filename):
 # ============================================================================================
 def run_ocr(image_path, preprocess="thresh"):
 	files = os.listdir(image_path)
+	print("Running OCR...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
-		print("Running OCR on : " + path_to_File)
 		write_to_disk(extract_text(path_to_File, preprocess), file)
+	print("OCR Completed for all lines")
 	return
 
 # ============================================================================================

@@ -10,6 +10,6 @@ ap.add_argument("-c", "--code", type=str,
                 default="/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput/services/python/codematching/code")
 args = vars(ap.parse_args())
 
-matchCode.match(args["ocr_path"], args["preprocess"])
+matchCode.match(args["code"], args["ocr_path"])
 
 print("\n")
