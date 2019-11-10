@@ -18,8 +18,10 @@ jobQueue.process(function (job, done) {
   // handle frame extraction
   extractFrames(job.data.bucket, job.data.key).then((data) => {
 
-    const s3CodeFilePath = job.data.key + '/code_files';
-    const s3SlideFilePath = job.data.key + '/lecture_slides';
+    const videoId = job.data.key.split('/')[0];
+
+    const s3CodeFilePath = videoId + '/code_files';
+    const s3SlideFilePath = videoId + '/lecture_slides';
 
     console.log('FRAME EXTRACTOR : ' + data)
     uploadThumbnail(job.data.bucket, job.data.key)
