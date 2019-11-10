@@ -11,5 +11,3 @@ ap.add_argument("-c", "--code", type=str,
 args = vars(ap.parse_args())
 
 matchCode.match(args["code"], args["ocr_path"])
-
-print("\n")

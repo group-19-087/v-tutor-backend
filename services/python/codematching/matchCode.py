@@ -59,7 +59,5 @@ def match(path_to_code_file, path_to_frames):
         }
         data["lines"].append(line)
 
-        print("max ratio for line ", idx, " = ", max_ratio, " at time : ", timestamp, " at frame : ", max_ratio_frame)
-
-    print("\n", data)
+    print data
 # ============================================================================================

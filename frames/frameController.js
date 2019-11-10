@@ -9,7 +9,6 @@ const tmpDirectory = __dirname + '/extracted'
 module.exports.extract = function (bucket, key) {
   const params = { Bucket: bucket, Key: key, Expires: 300 }
   const url = s3.getSignedUrl('getObject', params)
-  console.log('The URL is', url)
   console.log('tmpDirectory : ' + `${tmpDirectory}/frame-%04d.jpg`)
 
   return new Promise((resolve, reject) => {
@@ -22,10 +21,10 @@ module.exports.extract = function (bucket, key) {
           console.log(err)
           throw err
         }
-        console.log('Created directory')
+        console.log('FRAME CONTROLLER : Created directory')
       })
     } else {
-      console.log('directory exists')
+      console.log('FRAME CONTROLLER : directory exists')
     }
 
     const ffmpeg = spawn('ffmpeg', [
@@ -39,7 +38,7 @@ module.exports.extract = function (bucket, key) {
 
     ffmpeg.on('exit', (statusCode) => {
       if (statusCode === 0) {
-        console.log('Frames extracted')
+        console.log('FRAME CONTROLLER : Frames extracted')
         resolve('Frames extracted')
       } else {
         console, log('Non zero exit code : ' + statusCode)
@@ -55,7 +54,7 @@ module.exports.extract = function (bucket, key) {
 }
 
 module.exports.emptyFrameFolder = function () {
-  rimraf(`${tmpDirectory}/*`, function () { console.log('frame folder emptied'); });
+  rimraf(`${tmpDirectory}/*`, function () { console.log('FRAME CONTROLLER : frame folder emptied'); });
 }
 
 module.exports.uploadThumbnail = function (bucket, key) {
@@ -71,7 +70,7 @@ module.exports.uploadThumbnail = function (bucket, key) {
     }
     s3.upload(params, function (s3Error, data) {
       if (s3Error) throw s3Error
-      console.log(`File uploaded successfully at ${data.Location}`)
+      console.log(`FRAME CONTROLLER : thumbnail uploaded successfully at ${data.Location}`)
     })
   })
 }
