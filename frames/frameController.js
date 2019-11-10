@@ -33,7 +33,7 @@ module.exports.extract = function (bucket, key) {
       url,
       '-vf',
       'fps=0.5',
-      `${tmpDirectory}/frame-%04d.jpg`,
+      `${tmpDirectory}/%04d.jpg`,
       '-hide_banner'
     ])
 
@@ -48,7 +48,7 @@ module.exports.extract = function (bucket, key) {
     })
 
     ffmpeg.stderr.on('data', (err) => {
-      console.log(err)
+      console.log('ffmpeg : ' + err)
       // reject(err);
     })
   })
@@ -59,7 +59,7 @@ module.exports.emptyFrameFolder = function () {
 }
 
 module.exports.uploadThumbnail = function (bucket, key) {
-  const thumbnailFilePath = __dirname + '/extracted/frame-0001.jpg'
+  const thumbnailFilePath = __dirname + '/extracted/0001.jpg'
   const s3Key = `${key.split('/')[0]}/thumbnail/thumbnail.jpg`
 
   fs.readFile(thumbnailFilePath, (err, data) => {
