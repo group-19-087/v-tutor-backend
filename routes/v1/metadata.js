@@ -72,4 +72,13 @@ router.put('/slides/:id', (request, response) => {
     }
 });
 
+router.put('/:id/timestamp', (request, response) => {
+    try{
+        metadataService.updateTimestamp(request.params.is, request.body);
+        response.status(200).send(request.body);
+    }catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 module.exports = router;
