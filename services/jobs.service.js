@@ -38,7 +38,8 @@ jobQueue.process(function (job, done) {
           promiseArray.push(slideMatchingService.slideMatching(slides_exist));
           Promise.all(promiseArray).then((promiseResults) => {
             console.log("SLIDE MATCHER : " + promiseResults[0]);
-            console.log(" CODE MATCHER : " + promiseResults[1]);
+            console.log(" CODE MATCHER : --> " );
+            console.log(JSON.parse(promiseResults[1]));
             emptyFrameFolder();
             console.log('  JOB SERVICE : job completed')
             done();
