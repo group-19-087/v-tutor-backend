@@ -49,6 +49,16 @@ module.exports.updateStatus = function (id, data) {
     })
 }
 
+module.exports.updateCode = function (id, code) {
+    return new Promise(function (resolve, reject) {
+        MetaData.findOneAndUpdate({id: id}, { $push: { code: code}}).then(function () {
+            resolve({status: 200, message: "Code updated"});
+        }).catch(function (reason) {
+            reject({status: 500, message: "Error "+reason});
+        });
+    })
+};
+
 module.exports.getVideoByStatus = function (status) {
     return new Promise(function (resolve, reject) {
         MetaData.find({status: status}).exec().then(function (data) {
