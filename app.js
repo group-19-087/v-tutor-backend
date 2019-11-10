@@ -54,7 +54,28 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
     'cluster0-shard-00-01-phute.mongodb.net:27017,'+
     'cluster0-shard-00-02-phute.mongodb.net:27017/'+
     'test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', 
-{useNewUrlParser: true})
+{useNewUrlParser: true}).then(() =>{
+    const db = mongoose.connection;
+    console.log("Connection successful");
+    // Targeted change event
+    const targetedChange = [
+        {
+            $match: { $and: [
+                    { "updateDescription.updatedFields.status": "review" },
+                    { operationType: "update" }
+                ] }
+        }
+    ];
+
+    // Creating a change stream on metadatas collection
+
+    const collection = db.collection('metadatas');
+    const changeStream = collection.watch(targetedChange);
+    // start listen to changes
+    changeStream.on("change", function(event) {
+        console.log(JSON.stringify(event));
+    });
+})
     .catch((err) => {
         console.log('Unable to connect to mongoose instance ' + err);
     });
