@@ -25,8 +25,7 @@ var slide = new Schema({
     timestamp: Number
 });
 
-var statusSchema = new Schema({
-  status: { type: String, enum: ['processing', 'review', 'published'] },
+var subStatusSchema = new Schema({
   code: { type: String, enum: ['processing', 'done'] },
   slides: { type: String, enum: ['processing', 'done'] },
   topics: { type: String, enum: ['processing', 'done'] },
@@ -38,7 +37,8 @@ var metaDataSchema = new Schema({
   transcript_url: String,
   tags: [String],
   rating: Object,
-  status: statusSchema,
+  status: { type: String, enum: ['processing', 'review', 'published'] },
+  subStatuses: subStatusSchema,
   video_url: String,
   videoTitle: { type: String, required: true },
   description: { type: String, required: true },
