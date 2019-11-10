@@ -1,5 +1,6 @@
 from difflib import SequenceMatcher
 import os
+import json
 
 # ============================================================================================
 
@@ -59,5 +60,5 @@ def match(path_to_code_file, path_to_frames):
         }
         data["lines"].append(line)
 
-    print data
+    print json.dumps(data)
 # ============================================================================================

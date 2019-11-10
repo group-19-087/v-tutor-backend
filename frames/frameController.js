@@ -38,7 +38,6 @@ module.exports.extract = function (bucket, key) {
 
     ffmpeg.on('exit', (statusCode) => {
       if (statusCode === 0) {
-        console.log('FRAME CONTROLLER : Frames extracted')
         resolve('Frames extracted')
       } else {
         console, log('Non zero exit code : ' + statusCode)
