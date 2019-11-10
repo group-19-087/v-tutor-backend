@@ -25,14 +25,20 @@ var slide = new Schema({
     timestamp: Number
 });
 
+var subStatusSchema = new Schema({
+  code: { type: String, enum: ['processing', 'done'] },
+  slides: { type: String, enum: ['processing', 'done'] },
+  topics: { type: String, enum: ['processing', 'done'] },
+  questions: { type: String, enum: ['processing', 'done'] },
+});
+
 var metaDataSchema = new Schema({
   id: { type: String, unique: true, required: true },
   transcript_url: String,
   tags: [String],
   rating: Object,
-  status: { 
-    type: String, enum: ['processing', 'review', 'published'] 
-  },
+  status: { type: String, enum: ['processing', 'review', 'published'] },
+  subStatuses: subStatusSchema,
   video_url: String,
   videoTitle: { type: String, required: true },
   description: { type: String, required: true },

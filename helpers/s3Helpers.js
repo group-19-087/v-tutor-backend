@@ -1,4 +1,5 @@
 var AWS = require('aws-sdk');
+
 require('dotenv').config()
 
 const s3 = new AWS.S3({
@@ -20,7 +21,7 @@ module.exports.checkIfExists = function (path) {
                 console.log(err, err.stack);
                 reject(err);
             } else {
-                resolve(data.KeyCount)
+                resolve(data.KeyCount > 0);
             }
         });
     })
