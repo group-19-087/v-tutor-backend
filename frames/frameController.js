@@ -1,13 +1,14 @@
 const AWS = require('aws-sdk')
 const fs = require('fs')
 const spawn = require('child_process').spawn
+const rimraf = require('rimraf')
 
 const s3 = new AWS.S3()
+const tmpDirectory = __dirname + '/extracted'
 
 module.exports.extract = function (bucket, key) {
   const params = { Bucket: bucket, Key: key, Expires: 300 }
   const url = s3.getSignedUrl('getObject', params)
-  const tmpDirectory = __dirname + '/extracted'
   console.log('The URL is', url)
   console.log('tmpDirectory : ' + `${tmpDirectory}/frame-%04d.jpg`)
 
@@ -32,7 +33,7 @@ module.exports.extract = function (bucket, key) {
       url,
       '-vf',
       'fps=0.5',
-      `${tmpDirectory}/frame-%04d.jpg`,
+      `${tmpDirectory}/%04d.jpg`,
       '-hide_banner'
     ])
 
@@ -47,14 +48,18 @@ module.exports.extract = function (bucket, key) {
     })
 
     ffmpeg.stderr.on('data', (err) => {
-      console.log('Error : ' + err)
+      console.log('ffmpeg : ' + err)
       // reject(err);
     })
   })
 }
 
+module.exports.emptyFrameFolder = function () {
+  rimraf(`${tmpDirectory}/*`, function () { console.log('frame folder emptied'); });
+}
+
 module.exports.uploadThumbnail = function (bucket, key) {
-  const thumbnailFilePath = __dirname + '/extracted/frame-0001.jpg'
+  const thumbnailFilePath = __dirname + '/extracted/0001.jpg'
   const s3Key = `${key.split('/')[0]}/thumbnail/thumbnail.jpg`
 
   fs.readFile(thumbnailFilePath, (err, data) => {
