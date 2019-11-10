@@ -7,10 +7,12 @@ module.exports.runCodeMatching = function() {
     pathToScript = __dirname + "/python/codematching/main.py"
     const matchScript = spawn('python', [pathToScript])
 
+    let output = '';
+
     matchScript.on('exit', (statusCode) => {
       if (statusCode === 0) {
-        console.log('Code Matching Script exited successfully with code 0')
-        resolve('Code Matching done')
+        console.log('Code Matching Script executed successfully \n')
+        resolve(output)
       } else {
         console.log('Non zero exit code : ' + statusCode)
         reject('Non zero status code')
@@ -18,13 +20,11 @@ module.exports.runCodeMatching = function() {
     })
 
     matchScript.stdout.on('data', (data) => {
-      console.log('CODE MATCH STDOUT : ' + data.toString())
-      // reject(err);
+      output += data.toString()
     })
 
     matchScript.stderr.on('data', (err) => {
       console.log('Error : ' + err)
-      // reject(err);
     })
   })
 }
