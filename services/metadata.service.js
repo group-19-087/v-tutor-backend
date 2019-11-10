@@ -21,8 +21,18 @@ module.exports.updateComments = function (id, comment) {
 
 module.exports.updateSlides = function (id, slide) {
     return new Promise(function(resolve, reject) {
-        MetaData.findOneAndUpdate({_id: id}, slide).then(function() {
+        MetaData.findOneAndUpdate({_id: id}, { $push : { slides : slide}}).then(function() {
             resolve({status: 200, message: "Update Successful"});
+        }).catch(function (reason) {
+            reject({status: 500, message: "Error " + reason});
+        })
+    })
+};
+
+module.exports.updateTimestamp = function (id, time) {
+    return new Promise (function (resolve, reject) {
+        MetaData.findOneAndUpdate({_id: id}, time).then(function () {
+            resolve({status: 200, message: "Timestamp Updated"});
         }).catch(function (reason) {
             reject({status: 500, message: "Error " + reason});
         })
