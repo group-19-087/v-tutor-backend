@@ -30,5 +30,7 @@ module.exports.runOCR = function() {
 }
 
 module.exports.emptyOcrFolder = function () {
-  rimraf(`${tmpDirectory}/*`, function () { console.log('frame folder emptied'); });
+  rimraf('/home/ubuntu/v-tutor-backend/v-tutor-backend/frames/extracted/*', function () { 
+    console.log('OCR SERVICE : ocr folder emptied'); 
+  });
 }

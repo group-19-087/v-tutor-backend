@@ -7,6 +7,7 @@ var frameController = require('../frames/frameController')
 var s3Helpers = require('../helpers/s3Helpers')
 var extractFrames = frameController.extract
 var emptyFrameFolder = frameController.emptyFrameFolder
+var emptyOcrFolder = ocrService.emptyOcrFolder
 var uploadThumbnail = frameController.uploadThumbnail
 
 var jobQueue = new Queue('job-queue');
@@ -39,13 +40,17 @@ jobQueue.process(function (job, done) {
           Promise.all(promiseArray).then((promiseResults) => {
             console.log("SLIDE MATCHER : " + promiseResults[0]);
             console.log(" CODE MATCHER : --> " );
-            console.log(JSON.parse(promiseResults[1]));
+            console.log(promiseResults[1]);
             emptyFrameFolder();
+            emptyOcrFolder();
             console.log('  JOB SERVICE : job completed')
+            promiseArray.length = 0;
             done();
           }).catch((err) => {
             console.log(err);
             emptyFrameFolder();
+            emptyOcrFolder();
+            promiseArray.length = 0;
             console.log('  JOB SERVICE : job completed')
             done();
           })
@@ -75,6 +80,8 @@ jobQueue.process(function (job, done) {
     }).catch((err) => {
       console.log(err)
       emptyFrameFolder();
+      emptyOcrFolder();
+      promiseArray.length = 0;
       console.log('  JOB SERVICE : job completed')
       done();
     })
@@ -82,6 +89,8 @@ jobQueue.process(function (job, done) {
   }).catch((err) => {
     console.log(err)
     emptyFrameFolder();
+    emptyOcrFolder();
+    promiseArray.length = 0;
     console.log('  JOB SERVICE : job completed')
     done();
   })
