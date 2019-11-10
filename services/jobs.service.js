@@ -24,6 +24,9 @@ jobQueue.process(function (job, done) {
     console.log('FRAME EXTRACTOR : ' + data)
     uploadThumbnail(job.data.bucket, job.data.key)
 
+    console.log('DEBUG : s3 code path' + s3CodeFilePath)
+    console.log('DEBUG : s3 slide path' + s3SlideFilePath)
+
     // run OCR on extracted frames
     ocrService.runOCR().then((data) => {
       console.log("  OCR SERVICE : " + data)
@@ -32,11 +35,16 @@ jobQueue.process(function (job, done) {
       s3Helpers.checkIfExists(s3CodeFilePath).then(code_exists => {
 
         promiseArray.push(codeMatchService.runCodeMatching(code_exists));
+        
+        console.log('DEBUG : code exists' + code_exists)
 
         // check if slides exist on s3
         s3Helpers.checkIfExists(s3SlideFilePath).then(slides_exist => {
 
           promiseArray.push(slideMatchingService.slideMatching(slides_exist));
+
+          console.log('DEBUG : slide exists' + slides_exist)
+
           Promise.all(promiseArray).then((promiseResults) => {
             console.log("SLIDE MATCHER : " + promiseResults[1]);
             console.log(" CODE MATCHER : --> " );
