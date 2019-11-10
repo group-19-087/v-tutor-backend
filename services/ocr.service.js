@@ -1,5 +1,5 @@
-const fs = require('fs')
 const spawn = require('child_process').spawn
+const rimraf = require('rimraf')
 
 module.exports.runOCR = function() {
   return new Promise((resolve, reject) => {
@@ -27,4 +27,8 @@ module.exports.runOCR = function() {
       // reject(err);
     })
   })
+}
+
+module.exports.emptyOcrFolder = function () {
+  rimraf(`${tmpDirectory}/*`, function () { console.log('frame folder emptied'); });
 }
