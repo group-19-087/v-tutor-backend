@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="deb86e06-2c54-423f-b915-5a308c019de3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/v-tutor-backend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/jobs.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/jobs.service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/codematch.service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/python/codematching/code" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/python/codematching/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/python/codematching/matchCode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/frameController.js" beforeDir="false" afterPath="$PROJECT_DIR$/frames/frameController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/metadata.schema.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/metadata.schema.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ocr.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/ocr.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/python/ocr/ocr.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/python/ocr/ocr.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -23,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/services/ocr.service.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="209">
-              <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+              <caret line="18" selection-start-line="18" selection-end-line="18" />
             </state>
           </provider>
         </entry>
@@ -32,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/services/slide-matching.service.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" column="43" lean-forward="true" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
+              <caret line="3" column="43" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -58,11 +63,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/services/jobs.service.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/services/metadata.service.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -78,10 +92,11 @@
         <option value="$PROJECT_DIR$/services/python/slide-matching/slide-matching.py" />
         <option value="$PROJECT_DIR$/services/python/slide-matching.service.js" />
         <option value="$PROJECT_DIR$/services/jobs.service.js" />
+        <option value="$PROJECT_DIR$/services/metadata.service.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -153,23 +168,31 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1573279231771</updated>
-      <workItem from="1573279234878" duration="3297000" />
+      <workItem from="1573279234878" duration="13401000" />
     </task>
+    <task id="LOCAL-00001" summary="Adding endpoint to update the timestamps">
+      <created>1573366581080</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573366581081</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3297000" />
+    <option name="totallyTimeSpent" value="13401000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
       <window_info id="npm" side_tool="true" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Version Control" visible="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Terminal" weight="0.3289689" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -185,6 +208,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Adding endpoint to update the timestamps" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding endpoint to update the timestamps" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/services/python/slide-matching/slide-matching.py">
@@ -205,14 +232,14 @@
     <entry file="file://$PROJECT_DIR$/services/slide-matching.service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="43" lean-forward="true" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
+          <caret line="3" column="43" selection-start-line="3" selection-start-column="43" selection-end-line="3" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/services/ocr.service.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>
@@ -220,6 +247,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/metadata.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
         </state>
       </provider>
     </entry>

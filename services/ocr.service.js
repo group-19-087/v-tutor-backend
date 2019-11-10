@@ -17,6 +17,11 @@ module.exports.runOCR = function() {
       }
     })
 
+    ocrScript.stdout.on('data', (data) => {
+      console.log('OCR STDOUT : ' + data.toString())
+      // reject(err);
+    })
+
     ocrScript.stderr.on('data', (err) => {
       console.log('Error : ' + err)
       // reject(err);
