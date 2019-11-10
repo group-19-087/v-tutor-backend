@@ -2,6 +2,7 @@ var Queue = require('bull');
 
 var ocrService = require('./ocr.service')
 var codeMatchService = require('./codematch.service')
+var slideMtachingService = require('./slide-matching.service')
 var frameController = require('../frames/frameController')
 var extractFrames = frameController.extract
 var emptyFrameFolder = frameController.emptyFrameFolder
@@ -21,7 +22,13 @@ jobQueue.process(function (job, done) {
     ocrService.runOCR().then((data) => {
       console.log("ocr promise data : " + data)
       
-      // TODO: Run slide matching
+      slideMtachingService.slideMatching().then((data) => {
+        console.log("data : " + data)
+        emptyFrameFolder()
+      }).catch((err) => {
+        console.log(err);
+        emptyFrameFolder();
+      })
       // Run code matching
       codeMatchService.runCodeMatching().then((data) => {
         console.log("codematch promise data : " + data) 
