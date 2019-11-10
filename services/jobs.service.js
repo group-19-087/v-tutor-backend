@@ -20,12 +20,12 @@ jobQueue.process(function (job, done) {
     const s3CodeFilePath = job.data.key + '/code_files';
     const s3SlideFilePath = job.data.key + '/lecture_slides';
 
-    console.log('extract frames promise data : ' + data)
+    console.log('FRAME EXTRACTOR : ' + data)
     uploadThumbnail(job.data.bucket, job.data.key)
 
     // run OCR on extracted frames
     ocrService.runOCR().then((data) => {
-      console.log("ocr promise data : " + data)
+      console.log("  OCR SERVICE : " + data)
 
       // check if code folder exists on s3
       s3Helpers.checkIfExists(s3CodeFilePath).then(code_exists => {
@@ -37,15 +37,15 @@ jobQueue.process(function (job, done) {
 
           promiseArray.push(slideMatchingService.slideMatching(slides_exist));
           Promise.all(promiseArray).then((promiseResults) => {
-            console.log("slide matching data : " + promiseResults[0]);
-            console.log("codematch promise data : " + promiseResults[1]);
+            console.log("SLIDE MATCHER : " + promiseResults[0]);
+            console.log(" CODE MATCHER : " + promiseResults[1]);
             emptyFrameFolder();
-            console.log('job completed')
+            console.log('  JOB SERVICE : job completed')
             done();
           }).catch((err) => {
             console.log(err);
             emptyFrameFolder();
-            console.log('job completed')
+            console.log('  JOB SERVICE : job completed')
             done();
           })
 
@@ -74,14 +74,14 @@ jobQueue.process(function (job, done) {
     }).catch((err) => {
       console.log(err)
       emptyFrameFolder();
-      console.log('job completed')
+      console.log('  JOB SERVICE : job completed')
       done();
     })
 
   }).catch((err) => {
     console.log(err)
     emptyFrameFolder();
-    console.log('job completed')
+    console.log('  JOB SERVICE : job completed')
     done();
   })
 });
