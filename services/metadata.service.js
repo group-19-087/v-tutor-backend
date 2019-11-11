@@ -166,3 +166,13 @@ function secondsToHMS(seconds){
     }
     return (h + ':' + m + ':' + s);
 }
+
+module.exports.getLectureNameById = async function(_id) {
+    return MetaData.findById(_id, 'videoTitle', (err, res) => {
+        if (err) {
+            console.log(err);
+        } else {
+            return res;
+        }
+    })
+}
