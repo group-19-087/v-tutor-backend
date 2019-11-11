@@ -43,12 +43,12 @@ jobQueue.process(function (job, done) {
         console.log("  OCR SERVICE : " + data)
         // check if code folder exists on s3
         s3Helpers.checkIfExists(s3CodeFilePath).then(
-          (code_exists) => {
-            promiseArray.push(codeMatchService.runCodeMatching(code_exists));
+          (response) => {
+            promiseArray.push(codeMatchService.runCodeMatching(response));
             // check if slides folder exists on s3
             s3Helpers.checkIfExists(s3SlideFilePath).then(
-              (slides_exist) => {
-                promiseArray.push(slideMatchingService.slideMatching(slides_exist));
+              (response) => {
+                promiseArray.push(slideMatchingService.slideMatching(response));
                 Promise.all(promiseArray).then(
                   (promiseResults) => {
                     // promiseResults[0] --> data from first promise in array

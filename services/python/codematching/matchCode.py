@@ -1,6 +1,7 @@
 from difflib import SequenceMatcher
 import os
 import json
+import shutil
 
 # ============================================================================================
 
@@ -11,7 +12,7 @@ def extract_timestamp(seconds):
 # ============================================================================================
 # ============================================================================================
 
-def match(path_to_code_file, path_to_frames):
+def match(path_to_code_file, path_to_frames, title):
     lines_in_source_code = list()       
     
     with open(path_to_code_file) as code:
@@ -19,7 +20,7 @@ def match(path_to_code_file, path_to_frames):
             lines_in_source_code.append(line.strip())
             
     data = {
-        "filename": path_to_code_file, 
+        "title": title, 
         "lines":[]
         }
 
@@ -61,4 +62,6 @@ def match(path_to_code_file, path_to_frames):
         data["lines"].append(line)
 
     print json.dumps(data)
+	ocr_output_folder = "/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput"
+    shutil.rmtree(ocr_output_folder)
 # ============================================================================================

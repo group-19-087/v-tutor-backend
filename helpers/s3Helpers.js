@@ -1,4 +1,5 @@
 var AWS = require('aws-sdk');
+var fs = require('fs')
 
 require('dotenv').config()
 
@@ -21,8 +22,27 @@ module.exports.checkIfExists = function (path) {
                 console.log(err, err.stack);
                 reject(err);
             } else {
-                resolve(data.KeyCount > 0);
+                resolve({
+                    exists: data.KeyCount > 0,
+                    contents: data.Contents
+                });
             }
         });
     })
 }
+
+module.exports.downloadFile = function (saveFilePath, key) {
+    return new Promise((resolve, reject) => {
+        const params = {
+            Bucket: process.env.BUCKET_NAME,
+            Key: key
+        };
+        s3.getObject(params, (err, data) => {
+            if (err) {
+                reject(err)
+            };
+            fs.writeFileSync(saveFilePath, data.Body.toString());
+            resolve(`${saveFilePath} has been created!`);
+        });
+    })
+};
