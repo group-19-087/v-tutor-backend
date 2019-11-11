@@ -7,6 +7,8 @@ var util = require('./util')
 var mongoose = require('mongoose')
 var ObjectId = require('mongodb').ObjectId;
 
+const metadataService = require('./services/metadata.service');
+
 var jwt = require('./helpers/jwt')
 
 require('dotenv').config()
@@ -97,20 +99,19 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
                             console.log('Error updating status: ' + err);
                         } else {
                             console.log('' + result + ' document(s) updated');
-                            // TODO: SEND SOCKET.IO MESSAGE TO FRONTEND
+                            let lectureName = metadataService.getLectureNameById(id);
+                            io.on('connection', (socket) => {
+                                socket.emit('statusUpdate', {
+                                    msg: lectureName + ' finished processing. Now you can review and publish the lecture from My Uploads tab.'
+                                });
+                            });
                         }
-                    })
+                    });
                 }
             }
 
         });
         console.log(JSON.stringify(event));
-
-        // io.on('connection', (socket) => {
-        //     socket.emit('hello', {
-        //         msg: 'helloworld'
-        //     })
-        // })
     });
 })
     .catch((err) => {
