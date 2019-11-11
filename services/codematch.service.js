@@ -1,5 +1,6 @@
 const fs = require('fs')
 const spawn = require('child_process').spawn
+const s3Helpers = require('../helpers/s3Helpers')
 
 module.exports.runCodeMatching = function (response) {
   return new Promise((resolve, reject) => {
