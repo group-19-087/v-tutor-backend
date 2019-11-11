@@ -1,10 +1,11 @@
 const fs = require('fs')
 const spawn = require('child_process').spawn
 
-module.exports.slideMatching = function (enabled) {
+module.exports.slideMatching = function (response) {
+    console.log("SLIDE MATCHER: Starting...");
     return new Promise((resolve, reject) => {
 
-        if (enabled) {
+        if (response.exists) {
             pathToScript = __dirname + "/python/slide-matching/slide-matching.py"
             const smScript = spawn('python', [pathToScript])
 

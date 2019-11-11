@@ -37,18 +37,19 @@ jobQueue.process(function (job, done) {
     console.log('DEBUG : s3 code path' + s3CodeFilePath)
     console.log('DEBUG : s3 slide path' + s3SlideFilePath)
 
+    console.log('JOB HANDLER : Starting Process flow for ' + videoId +'...')
     // run OCR on extracted frames
     ocrService.runOCR().then(
       (data) => {
         console.log("  OCR SERVICE : " + data)
         // check if code folder exists on s3
         s3Helpers.checkIfExists(s3CodeFilePath).then(
-          (code_exists) => {
-            promiseArray.push(codeMatchService.runCodeMatching(code_exists));
+          (response) => {
+            promiseArray.push(codeMatchService.runCodeMatching(response));
             // check if slides folder exists on s3
             s3Helpers.checkIfExists(s3SlideFilePath).then(
-              (slides_exist) => {
-                promiseArray.push(slideMatchingService.slideMatching(slides_exist));
+              (response) => {
+                promiseArray.push(slideMatchingService.slideMatching(response));
                 Promise.all(promiseArray).then(
                   (promiseResults) => {
                     // promiseResults[0] --> data from first promise in array
