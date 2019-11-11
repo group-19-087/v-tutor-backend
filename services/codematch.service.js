@@ -24,7 +24,7 @@ module.exports.runCodeMatching = function (response) {
             // Run codematching after file download
             const matchScript = spawn('python', [
               pathToScript,
-              '-t',
+              '--title',
               title
             ])
 
@@ -60,7 +60,7 @@ module.exports.runCodeMatching = function (response) {
                 // after file download
                 const matchScript = spawn('python', [
                   pathToScript,
-                  '-t',
+                  '--title',
                   title
                 ])
 
