@@ -3,6 +3,8 @@ const spawn = require('child_process').spawn
 const s3Helpers = require('../helpers/s3Helpers')
 
 module.exports.runCodeMatching = function (response) {
+  
+  console.log(" CODE MATCHER: Starting...");
   return new Promise((resolve, reject) => {
 
     if (response.exists) {

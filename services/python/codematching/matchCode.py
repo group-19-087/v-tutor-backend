@@ -62,6 +62,6 @@ def match(path_to_code_file, path_to_frames, title):
         data["lines"].append(line)
 
     print json.dumps(data)
-	ocr_output_folder = "/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput"
+    ocr_output_folder = "/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput"
     shutil.rmtree(ocr_output_folder)
 # ============================================================================================
