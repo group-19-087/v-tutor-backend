@@ -49,7 +49,7 @@ def match(path_to_code_file, path_to_frames, title):
                     # print("line ", i, " ratio: ", cur_ratio)
 
         frame_number = int(max_ratio_frame.split(".")[0])
-        seconds = frame_number * 5 # calculated with [1/(fps that the video is sampled at)] ie. 1/0.2
+        seconds = frame_number * 2 # calculated with [1/(fps that the video is sampled at)] ie. 1/0.2
         
         h, m, s = extract_timestamp(seconds)
         timestamp = '{:d}:{:02d}:{:02d}'.format(h, m, s)
