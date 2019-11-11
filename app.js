@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 var logger = require('morgan')
 var util = require('./util')
 var mongoose = require('mongoose')
+var ObjectId = require('mongodb').ObjectId;
 
 var jwt = require('./helpers/jwt')
 
@@ -57,13 +58,21 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
 {useNewUrlParser: true}).then(() =>{
     const db = mongoose.connection;
     console.log("Connection successful");
+    var a = "subStatuses.code";
     // Targeted change event
     const targetedChange = [
         {
-            $match: { $and: [
-                    { "updateDescription.updatedFields.status": "review" },
+            $match: {
+                $and: [
+                    {$or:[{ "updateDescription.updatedFields.codeStatus": "done" },
+                        { "updateDescription.updatedFields.slidesStatus": "done" },
+                        { "updateDescription.updatedFields.topicsStatus": "done" },
+                        { "updateDescription.updatedFields.questionsStatus": "done" }]
+                    },
                     { operationType: "update" }
-                ] }
+                ]
+
+            }
         }
     ];
 
@@ -73,6 +82,28 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
     const changeStream = collection.watch(targetedChange);
     // start listen to changes
     changeStream.on("change", function(event) {
+        let changeEvent = JSON.parse(JSON.stringify(event));
+        var id = new ObjectId(changeEvent.documentKey._id);
+
+        // Retrieving document by id of the updated document
+        collection.findOne({_id: id}).then(function(doc) {
+            if(doc){
+                // Checking whether all 4 processes are done
+                if(doc.codeStatus === "done" && doc.slidesStatus === "done" &&
+                    doc.topicsStatus === "done" && doc.questionsStatus === "done"){
+                    // Updating main status to review
+                    collection.update({_id: id},{$set: {status : "review"}}, {w:1}, function(err, result) {
+                        if (err) {
+                            console.log('Error updating status: ' + err);
+                        } else {
+                            console.log('' + result + ' document(s) updated');
+                            // TODO: SEND SOCKET.IO MESSAGE TO FRONTEND
+                        }
+                    })
+                }
+            }
+
+        });
         console.log(JSON.stringify(event));
 
         // io.on('connection', (socket) => {
