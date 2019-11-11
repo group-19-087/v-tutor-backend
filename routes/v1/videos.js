@@ -74,6 +74,10 @@ var uploadToS3 = function (req, res, next) {
           dislikes: []
         },
         status: 'processing',
+        slidesStatus: '',
+        topicsStatus: '',
+        codeStatus: '',
+        questionsStatus: '',
         slides: [],
         code: [],
         topics: [],
@@ -146,14 +150,20 @@ router.post('/notifyuploaded', function (req, res, next) {
       var requestData = {
         audio_src_url: s3url,
         language_model: 'computer-science-model-3',
-        webhook_url: 'http://13.127.182.254:3000/v1/videos/notify-transcription/' + id
+        webhook_url: 'http://13.235.87.37:3000/v1/videos/notify-transcription/' + id
       };
 
       // Calling assemblyai for transcribing the video
       axios.post('https://api.assemblyai.com/v2/transcript', requestData,
         { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
         .then((result) => {
-          console.log('Response recieved : ' + result)
+          console.log('Response recieved : ' + result);
+            //Updating topicsStatus as processing
+            metaDataService.updateStatus(id, {"topicsStatus": "processing"}).then(function (data) {
+                console.log(data.message)
+            }).catch(function (err) {
+                console.log(err.message);
+            });
         }).catch((err) => {
           console.log('Error: ' + err)
         })
@@ -164,7 +174,7 @@ router.post('/notifyuploaded', function (req, res, next) {
 
 router.post('/notify-transcription/:id', function (req, res) {
   // Calling python API for topic segmentation
-  axios.post('http://13.127.182.254:5000/vtutor-transcriptions-api/v1/get-transcript', req.body).then((data) => {
+  axios.post('http://13.235.87.37/vtutor-transcriptions-api/v1/get-transcript', req.body).then((data) => {
     console.log('id:  ' + req.params.id);
     const params = {
       Bucket: process.env.BUCKET_NAME,
@@ -195,7 +205,13 @@ router.post('/notify-transcription/:id', function (req, res) {
   }).catch((err) => {
     console.log('Error: ' + err)
     res.status(err.status).send(err.result);
-  })
+  });
+  //Updating topicsStatus as done
+    metaDataService.updateStatus(req.params.id, {"topicsStatus": "done"}).then(function (data) {
+        console.log(data.message)
+    }).catch(function (err) {
+        console.log(err.message);
+    });
 });
 
 router.put('/update-comments/:id', function (req, res) {
