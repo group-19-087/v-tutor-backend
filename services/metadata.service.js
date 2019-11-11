@@ -41,7 +41,7 @@ module.exports.updateTopics = function (id, topic) {
 
 module.exports.updateStatus = function (id, data) {
     return new Promise(function (resolve, reject) {
-        MetaData.findOneAndUpdate({_id: id}, data).then(function () {
+        MetaData.findOneAndUpdate({id: id}, data).then(function () {
             resolve({status: 200, message: "Record updated"});
         }).catch(function (reason) {
             reject({status: 500, message: "Error "+reason});
