@@ -3,7 +3,7 @@ var router = express.Router()
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.io.emit('hello', {
+  res.io.emit('statusUpdate', {
     msg: 'helloworld'
   })
   res.send('index route')

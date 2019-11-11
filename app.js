@@ -74,6 +74,12 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
     // start listen to changes
     changeStream.on("change", function(event) {
         console.log(JSON.stringify(event));
+
+        // io.on('connection', (socket) => {
+        //     socket.emit('hello', {
+        //         msg: 'helloworld'
+        //     })
+        // })
     });
 })
     .catch((err) => {
@@ -82,11 +88,5 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
 
 app.use('/', indexRouter)
 app.use('/v1', v1Router)
-
-// io.on('connection', (socket) => {
-//     socket.emit('hello', {
-//         msg: 'helloworld'
-//     })
-// })
 
 module.exports = {app, server}
