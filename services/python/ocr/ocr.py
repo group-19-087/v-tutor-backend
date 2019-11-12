@@ -47,7 +47,7 @@ def write_to_disk(string, filename):
 			print ("Creation of the directory %s failed" % save_path)
 		else:  
 			print ("Successfully created the directory %s " % save_path)
-	with open(os.path.join(save_path, output_filename), "w") as ocr_file:
+	with open(os.path.join(save_path, output_filename), "wb") as ocr_file:
 		ocr_file.write(string)
 	return
 
@@ -65,7 +65,7 @@ def run_ocr(image_path, preprocess="thresh"):
 	print("OCR Script starting...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
-		if is_codefile():
+		if is_codefile(path_to_File):
 			print("code present in " + file + " running ocr")
 			# write_to_disk(extract_text(path_to_File, preprocess), file)
 		else:

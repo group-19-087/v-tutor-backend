@@ -39,7 +39,7 @@ module.exports.extract = function (bucket, key) {
       if (statusCode === 0) {
         resolve('Frames extracted')
       } else {
-        console, log('Non zero exit code : ' + statusCode)
+        console.log('Non zero exit code : ' + statusCode)
         reject('Non zero status code')
       }
     })
