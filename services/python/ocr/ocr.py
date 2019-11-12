@@ -11,7 +11,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 WIDTH = 299
 HEIGHT = 299
-MODEL_FILE = 'models/image_classifier_vgg16.model'
+MODEL_FILE = MODEL_FILE = '/home/ubuntu/v-tutor-backend/v-tutor-backend/services/python/ocr/models/image_classifier_vgg16.model'
 model = load_model(MODEL_FILE)
 for l in model.layers:
     l.trainable = False
@@ -54,18 +54,19 @@ def predict_frame_label(frame_path):
 
 def extract_text(mpath_to_File, mpreprocess):
 	# load the example image and convert it to grayscale
-	image = cv2.imread(mpath_to_File)
-	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+	im = cv2.imread(mpath_to_File)
+	im = cv2.resize(im, None, fx=2, fy=2)
+	gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 
 	# check to see if we should apply thresholding to preprocess the image
-	if mpreprocess == "thresh":
-		gray = cv2.threshold(gray, 0, 255,
-			cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+	# if mpreprocess == "thresh":
+	# 	gray = cv2.threshold(gray, 0, 255,
+	# 		cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
 	# make a check to see if median blurring should be done to remove
 	# noise
-	elif mpreprocess == "blur":
-		gray = cv2.medianBlur(gray, 3)
+	# elif mpreprocess == "blur":
+	gray = cv2.medianBlur(gray, 3)
 
 	# write the grayscale image to disk as a temporary file so we can
 	# apply OCR to it
@@ -105,7 +106,7 @@ def run_ocr(image_path, preprocess="thresh"):
 	print("OCR Script starting...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
-		if (predict_frame_label(path_to_File) == 'code'):
+		if (True):
 			print("code present in " + file + " running ocr")
 			write_to_disk(extract_text(path_to_File, preprocess), file)
 		else:
