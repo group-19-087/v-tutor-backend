@@ -4,12 +4,10 @@ const s3Helpers = require('../helpers/s3Helpers')
 
 module.exports.runCodeMatching = function (response) {
   
-  console.log(" CODE MATCHER: Starting...");
+  console.log(" CODE MATCHER : Starting...");
   return new Promise((resolve, reject) => {
 
     if (response.exists) {
-
-      console.log(response.contents[0].Key)
 
       const saveFilePath = __dirname + '/python/codematching/code';
       const title = response.contents[0].Key.slice(response.contents[0].Key.lastIndexOf('/') + 1);
@@ -18,7 +16,7 @@ module.exports.runCodeMatching = function (response) {
 
       fs.stat(saveFilePath, function (err, stats) {
         if (err) {
-          console.log("CODE MATCHER: code file doesnt  exist on disk");
+          console.log(" CODE MATCHER : code file doesnt  exist on disk");
           // download file
           s3Helpers.downloadFile(saveFilePath, response.contents[0].Key).then(msg => {
             // Run codematching after file download
@@ -30,11 +28,11 @@ module.exports.runCodeMatching = function (response) {
 
             matchScript.on('exit', (statusCode) => {
               if (statusCode === 0) {
-                console.log('Code Matching Script executed successfully \n')
+                console.log('CODE MATCHER : Code Matching Script executed successfully \n')
                 resolve(output)
               } else {
-                console.log('Non zero exit code : ' + statusCode)
-                reject('Non zero status code')
+                console.log('CODE MATCHER : Non zero exit code : ' + statusCode)
+                reject('CODE MATCHER : Non zero status code')
               }
             })
 
@@ -55,7 +53,7 @@ module.exports.runCodeMatching = function (response) {
               console.log(err);
             } else {
               //download file after deleting
-              console.log('CODE MATCHER: temporary codefile deleted successfully');
+              console.log('CODE MATCHER : temporary codefile deleted successfully');
               s3Helpers.downloadFile(saveFilePath, response.contents[0].Key).then(msg => {
                 // after file download
                 const matchScript = spawn('python', [
@@ -66,11 +64,11 @@ module.exports.runCodeMatching = function (response) {
 
                 matchScript.on('exit', (statusCode) => {
                   if (statusCode === 0) {
-                    console.log('Code Matching Script executed successfully \n')
+                    console.log('CODE MATCHER : Code Matching Script executed successfully \n')
                     resolve(output)
                   } else {
-                    console.log('Non zero exit code : ' + statusCode)
-                    reject('Non zero status code')
+                    console.log('CODE MATCHER : Non zero exit code : ' + statusCode)
+                    reject('CODE MATCHER : Non zero status code')
                   }
                 })
 

@@ -59,7 +59,7 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
     'test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', 
 {useNewUrlParser: true}).then(() =>{
     const db = mongoose.connection;
-    console.log("Connection successful");
+    console.log("APP : Connection successful");
     var a = "subStatuses.code";
     // Targeted change event
     const targetedChange = [
@@ -96,9 +96,9 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
                     // Updating main status to review
                     collection.update({_id: id},{$set: {status : "review"}}, {w:1}, function(err, result) {
                         if (err) {
-                            console.log('Error updating status: ' + err);
+                            console.log('APP : Error updating status: ' + err);
                         } else {
-                            console.log('' + result + ' document(s) updated');
+                            console.log('APP : ' + result + ' document(s) updated');
                             let lectureName = metadataService.getLectureNameById(id);
                             io.on('connection', (socket) => {
                                 socket.emit('statusUpdate', {
@@ -111,11 +111,11 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
             }
 
         });
-        console.log(JSON.stringify(event));
+        console.log('APP : ' + JSON.stringify(event));
     });
 })
     .catch((err) => {
-        console.log('Unable to connect to mongoose instance ' + err);
+        console.log('APP : Unable to connect to mongoose instance ' + err);
     });
 
 app.use('/', indexRouter)

@@ -10,8 +10,6 @@ module.exports = {
 }
 
 async function authenticate ({ username, password }) {
-  console.log(username, password)
-
   return new Promise((resolve, reject) => {
     User.findOne({
       username: username,
@@ -22,7 +20,6 @@ async function authenticate ({ username, password }) {
         console.log(err)
         reject(err)
       } else if (res) {
-        console.log(res)
         token = jwt.sign({
           id: res._id,
           username: res.username,

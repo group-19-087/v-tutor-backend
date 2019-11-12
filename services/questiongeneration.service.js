@@ -10,7 +10,7 @@ module.exports.extractWikiArticle = function (keyword) {
         let output = '';
 
         extractorScript.on('error', function () {
-            console.log('Failed to start child.');
+            console.log('QUESTION SERVICE : Failed to start child.');
             reject('Failed to start child.');
         });
         extractorScript.on('close', function (code) {
@@ -38,12 +38,12 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             lectureId: lectureId,
             document: text
         }
-        console.log('result >>> ', data);
+        console.log('QUESTION SERVICE : result >>> ', data);
         axios.post('http://13.235.185.50/generate', data).then((response) => {
-            console.log(response.data);
+            console.log('QUESTION SERVICE : ' + response.data);
             // Update status to processing
             metadataservice.updateStatusById(lectureId, {questionsStatus: 'processing'}).then((res) => {
-                console.log(res);
+                console.log('METADATA SERVICE : ' + res);
             }).catch((err) => {
                 console.log(err);
             })
@@ -51,6 +51,6 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             console.log(err); 
         })
     }).catch(err => {
-        console.log('err >>>', err);
+        console.log('QUESTION SERVICE : err >>>', err);
     })
 }

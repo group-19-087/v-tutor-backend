@@ -9,7 +9,6 @@ const tmpDirectory = __dirname + '/extracted'
 module.exports.extract = function (bucket, key) {
   const params = { Bucket: bucket, Key: key, Expires: 300 }
   const url = s3.getSignedUrl('getObject', params)
-  console.log('tmpDirectory : ' + `${tmpDirectory}/frame-%04d.jpg`)
 
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(tmpDirectory)) {
@@ -46,7 +45,7 @@ module.exports.extract = function (bucket, key) {
     })
 
     ffmpeg.stderr.on('data', (err) => {
-      console.log('ffmpeg : ' + err)
+      console.log('FFMPEG : ' + err)
       // reject(err);
     })
   })

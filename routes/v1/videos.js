@@ -46,7 +46,7 @@ var uploadToS3 = function (req, res, next) {
         cb(null, { fieldName: file.fieldname })
       },
       key: function (req, file, cb) {
-        console.log(req.body)
+        console.log('UPLOAD : ' + req.body)
         if (file.fieldname === 'lectureVideo') {
           cb(null, req.body.lectureId + '/' + file.originalname)
         } else if (file.fieldname === 'codeFiles') {
@@ -112,16 +112,16 @@ router.post('/notifyuploaded', function (req, res, next) {
   const msgType = req.get('x-amz-sns-message-type')
   if (msgType == null) {
 
-    console.log('x-amz-sns-message-type header not found');
+    console.log('SNS : x-amz-sns-message-type header not found');
     res.send('x-amz-sns-message-type header not found');
 
   } else {
     console.log(msgType)
     if (msgType === 'SubscriptionConfirmation') {
 
-      console.log('This is a subscription confirmation message');
-      console.log('URL : ' + req.body.SubscribeURL);
-      res.send('Notify Uploaded Endpoint called');
+      console.log('SNS : This is a subscription confirmation message');
+      console.log('SNS : URL = ' + req.body.SubscribeURL);
+      res.send('SNS : Notify Uploaded Endpoint called');
 
     } else if (msgType === 'Notification') {
 
@@ -129,12 +129,12 @@ router.post('/notifyuploaded', function (req, res, next) {
       const bucket = message.Records[0].s3.bucket.name;
       const key = message.Records[0].s3.object.key;
 
-      console.log('SNS notification received');
-      console.log('Bucket : ' + bucket);
-      console.log('Object key : ' + key);
+      console.log('SNS : notification received');
+      console.log('SNS : Bucket = ' + bucket);
+      console.log('SNS : Object key = ' + key);
 
       // finish http request so it is non-blocking for SNS
-      res.status(200).send('Notify Uploaded Endpoint called');
+      res.status(200).send('SNS : Notify Uploaded Endpoint called');
 
       // add a new job to the job queue
       jobsService.newJob({
@@ -157,15 +157,15 @@ router.post('/notifyuploaded', function (req, res, next) {
       axios.post('https://api.assemblyai.com/v2/transcript', requestData,
         { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
         .then((result) => {
-          console.log('Response recieved : ' + result);
+          console.log('ASSEMBLY AI : Response recieved : ' + result);
             //Updating topicsStatus as processing
             metaDataService.updateStatus(id, {"topicsStatus": "processing"}).then(function (data) {
-                console.log(data.message)
+                console.log('METADATA SERVICE : ' + data.message)
             }).catch(function (err) {
-                console.log(err.message);
+                console.log('METADATA SERVICE :' + err.message);
             });
         }).catch((err) => {
-          console.log('Error: ' + err)
+          console.log('ASSEMBLY AI : Error = ' + err)
         })
     }
 
@@ -175,7 +175,7 @@ router.post('/notifyuploaded', function (req, res, next) {
 router.post('/notify-transcription/:id', function (req, res) {
   // Calling python API for topic segmentation
   axios.post('http://15.206.33.173/vtutor-transcriptions-api/v1/get-transcript', req.body).then((data) => {
-    console.log('id:  ' + req.params.id);
+    // console.log('id:  ' + req.params.id);
     const params = {
       Bucket: process.env.BUCKET_NAME,
       Key: req.params.id + '/transcript/transcript.txt',
@@ -185,20 +185,20 @@ router.post('/notify-transcription/:id', function (req, res) {
     // Uploading transcript to S3
     s3bucket.upload(params, function (s3Err, data) {
       if (s3Err) throw s3Err
-      console.log("Transcript uploaded successfully")
+      console.log("S3 : Transcript uploaded successfully")
     });
     res.status(data.status).send(data.data.result);
 
     // Saving the transcript in DB
     metaDataService.saveTranscript(req.params.id, data.data.result.words).then(function (data) {
-      console.log(data.message)
+      console.log('METADATA SERVICE : ' + data.message)
     }).catch(function (err) {
       console.log(err.message);
     });
 
     // Saving Topics
     metaDataService.updateTopics(req.params.id, { "topics": data.data.result.timestamps }).then(function (data) {
-      console.log(data.message)
+      console.log('METADATA SERVICE : ' + data.message)
     }).catch(function (err) {
       console.log(err.message);
     });
@@ -208,7 +208,7 @@ router.post('/notify-transcription/:id', function (req, res) {
   });
   //Updating topicsStatus as done
     metaDataService.updateStatus(req.params.id, {"topicsStatus": "done"}).then(function (data) {
-        console.log(data.message)
+        console.log('METADATA SERVICE : ' + data.message)
     }).catch(function (err) {
         console.log(err.message);
     });
