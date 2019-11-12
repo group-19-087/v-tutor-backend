@@ -40,52 +40,92 @@ jobQueue.process(function (job, done) {
 
     console.log('JOB HANDLER : Starting Process flow for ' + videoId + '...')
     // run OCR on extracted frames
-    ocrService.runOCR().then(
-      (data) => {
-        console.log("  OCR SERVICE : " + data)
-        // check if code folder exists on s3
-        s3Helpers.checkIfExists(s3CodeFilePath).then(
-          (response) => {
-            promiseArray.push(codeMatchService.runCodeMatching(response));
-            // check if slides folder exists on s3
-            s3Helpers.checkIfExists(s3SlideFilePath).then(
-              (response) => {
-                promiseArray.push(slideMatchingService.slideMatching(response));
-                Promise.all(promiseArray).then(
-                  (promiseResults) => {
-                    // promiseResults[0] --> data from first promise in array
-                    codeResult = JSON.parse(promiseResults[0]);
-                    slideResult = JSON.parse(promiseResults[1]);
-                    // promiseResults[1] --> data from second promise in array
+    // ocrService.runOCR().then(
+    //   (data) => {
+    //     console.log("  OCR SERVICE : " + data)
+    s3Helpers.checkIfExists(s3CodeFilePath).then(
+      (response) => {
+        if (response.exists) {
+          ocrService.runOCR().then(
+            (data) => {
+              console.log("  OCR SERVICE : " + data)
+              promiseArray.push(codeMatchService.runCodeMatching(response));
+              // check if slides folder exists on s3
+              s3Helpers.checkIfExists(s3SlideFilePath).then(
+                (response) => {
+                  promiseArray.push(slideMatchingService.slideMatching(response));
+                  Promise.all(promiseArray).then(
+                    (promiseResults) => {
+                      // promiseResults[0] --> data from first promise in array
+                      codeResult = JSON.parse(promiseResults[0]);
+                      slideResult = JSON.parse(promiseResults[1]);
+                      // promiseResults[1] --> data from second promise in array
 
-                    // TODO: Update slide data
-                    metaDataService.updateMetadataById(videoId, {
-                      code: codeResult ? [codeResult] : [],
-                      slidesStatus: 'done',
-                      codeStatus: 'done',
-                    })
-
-                    // Processing of slide promise data
+                      // TODO: Update slide data
+                      metaDataService.updateMetadataById(videoId, {
+                        code: codeResult ? [codeResult] : [],
+                        slidesStatus: 'done',
+                        codeStatus: 'done',
+                      })
+                      // Processing of slide promise data
+                      cleanup();
+                      done();
+                    }
+                  ).catch((err) => {
+                    console.log(err);
                     cleanup();
                     done();
-                  }
-                ).catch((err) => {
-                  console.log(err);
+                  })
+                }
+              )
+            }).catch((err) => {
+              console.log(err)
+              cleanup();
+              done();
+            })
+        } else {
+          promiseArray.push(codeMatchService.runCodeMatching(response));
+          // check if slides folder exists on s3
+          s3Helpers.checkIfExists(s3SlideFilePath).then(
+            (response) => {
+              promiseArray.push(slideMatchingService.slideMatching(response));
+              Promise.all(promiseArray).then(
+                (promiseResults) => {
+                  // promiseResults[0] --> data from first promise in array
+                  codeResult = JSON.parse(promiseResults[0]);
+                  slideResult = JSON.parse(promiseResults[1]);
+                  // promiseResults[1] --> data from second promise in array
+
+                  // TODO: Update slide data
+                  metaDataService.updateMetadataById(videoId, {
+                    code: codeResult ? [codeResult] : [],
+                    slidesStatus: 'done',
+                    codeStatus: 'done',
+                  })
+                  // Processing of slide promise data
                   cleanup();
                   done();
-                })
-              }
-            )
-          }
-        ).catch((err) => {
-          console.log(err);
-        })
+                }
+              ).catch((err) => {
+                console.log(err);
+                cleanup();
+                done();
+              })
+            }
+          )
+        }
       }
     ).catch((err) => {
-      console.log(err)
-      cleanup();
-      done();
+      console.log(err);
     })
+    // OCR END
+    //   }
+    // ).catch((err) => {
+    //   console.log(err)
+    //   cleanup();
+    //   done();
+    // })
+
   }).catch((err) => {
     console.log(err)
     cleanup();
