@@ -5,7 +5,7 @@ module.exports.runOCR = function() {
   return new Promise((resolve, reject) => {
 
     pathToScript = __dirname + "/python/ocr/main.py"
-    const ocrScript = spawn('python', [pathToScript])
+    const ocrScript = spawn('python3', [pathToScript])
 
     ocrScript.on('exit', (statusCode) => {
       if (statusCode === 0) {

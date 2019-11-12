@@ -52,13 +52,24 @@ def write_to_disk(string, filename):
 	return
 
 # ============================================================================================
+# ============================================================================================
 
+def is_codefile(path_to_File):
+	return True
+
+
+# ============================================================================================
 # ============================================================================================
 def run_ocr(image_path, preprocess="thresh"):
 	files = os.listdir(image_path)
-	print("Running OCR...")
+	print("OCR Script starting...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
+		if is_codefile():
+			print("code present in " + file + " running ocr")
+			# write_to_disk(extract_text(path_to_File, preprocess), file)
+		else:
+			print("no code present in " + file + " skipping")		
 		write_to_disk(extract_text(path_to_File, preprocess), file)
 	print("OCR Completed for all lines")
 	return
