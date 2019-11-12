@@ -150,7 +150,7 @@ router.post('/notifyuploaded', function (req, res, next) {
       var requestData = {
         audio_src_url: s3url,
         language_model: 'computer-science-model-3',
-        webhook_url: 'http://13.235.87.37:3000/v1/videos/notify-transcription/' + id
+        webhook_url: 'http://15.206.33.173:3000/v1/videos/notify-transcription/' + id
       };
 
       // Calling assemblyai for transcribing the video
@@ -174,7 +174,7 @@ router.post('/notifyuploaded', function (req, res, next) {
 
 router.post('/notify-transcription/:id', function (req, res) {
   // Calling python API for topic segmentation
-  axios.post('http://13.235.87.37/vtutor-transcriptions-api/v1/get-transcript', req.body).then((data) => {
+  axios.post('http://15.206.33.173/vtutor-transcriptions-api/v1/get-transcript', req.body).then((data) => {
     console.log('id:  ' + req.params.id);
     const params = {
       Bucket: process.env.BUCKET_NAME,
