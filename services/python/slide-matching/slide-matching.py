@@ -11,6 +11,7 @@ import requests
 import cv2
 import numpy as np
 import numpy
+import json
 
 socket.getaddrinfo('127.0.0.1', 8080)
 # DECLARE CONSTANTS
@@ -24,7 +25,7 @@ THREAD_COUNT = 1
 USERPWD = None
 USE_CROPBOX = False
 STRICT = False
-
+slides = []
 
 # This method converts the pdf into a set of images.
 def pdftopil(f):
@@ -72,15 +73,16 @@ def save_images(pil_images):
     j = 1
     while j <= slide_count:
         s3.upload_file('Slides/Slide ' + str(j) + '.png', 'cdap-slides-bucket',
-                       'Lecture7-test1/{}'.format('Slide' + str(j) + '.jpg'))
+                       sys.argv[2].format('Slide' + str(j) + '.jpg'))
         timestamp = findTimestamp('Slides/Slide ' + str(j) + '.png')
         location = boto3.client('s3').get_bucket_location(Bucket='cdap-slides-bucket')['LocationConstraint']
         #url = "https://s3-%s.amazonaws.com/%s/%s" % (location, 'cdap-slides-bucket', key)
         url = "https://%s.s3.%s.amazonaws.com/%s" % ('cdap-slides-bucket', location, 'Slide' + str(index) + '.jpg')
-        r1 = requests.put('http://localhost:3000/v1/metadata/updateSlides/', params=url)
-        r2 = requests.put('http://localhost:3000/v1/metadata/updateTimestamp/', params=timestamp)
+        slides.append({"slide": url, "timestamp": timestamp})
+        # r2 = requests.put('http://localhost:3000/v1/metadata/updateTimestamp/', params=timestamp)
         j += 1
 
+    r1 = requests.put('http://localhost:3000/v1/metadata/updateSlides/%s' % sys.argv[2] , data=json.dump({"slides": slides}))
     # b = pickle.dumps(Slides)
     # s3.put_object(Body=Slides)
 
