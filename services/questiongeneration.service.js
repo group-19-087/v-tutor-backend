@@ -1,5 +1,6 @@
 const spawn = require('child_process').spawn
 const axios = require('axios')
+const metadataservice = require('../services/metadata.service');
 
 module.exports.extractWikiArticle = function (keyword) {
     return new Promise((resolve, reject) => {
@@ -40,6 +41,12 @@ module.exports.generateQuestions = function(lectureId, keyword) {
         console.log('result >>> ', data);
         axios.post('http://13.235.185.50/generate', data).then((response) => {
             console.log(response.data);
+            // Update status to processing
+            metadataservice.updateStatusById(lectureId, {questionsStatus: 'processing'}).then((res) => {
+                console.log(res);
+            }).catch((err) => {
+                console.log(err);
+            })
         }).catch((err) => {
             console.log(err); 
         })
