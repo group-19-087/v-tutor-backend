@@ -2,7 +2,7 @@ const fs = require('fs')
 const spawn = require('child_process').spawn
 
 module.exports.slideMatching = function (response) {
-    console.log("SLIDE MATCHER: Starting...");
+    console.log("SLIDE MATCHER : Running...");
     return new Promise((resolve, reject) => {
 
         if (response.exists) {
@@ -13,10 +13,10 @@ module.exports.slideMatching = function (response) {
             const smScript = spawn('python', [pathToScript], lectureSlides, id);
             smScript.on('exit', (statusCode) => {
                 if (statusCode === 0) {
-                    console.log('Slide Matching Script exited successfully with code 0');
+                    console.log('SLIDE MATCHER : Script exited successfully with code 0');
                     resolve(true)
                 } else {
-                    console.log('Non zero exit code : ' + statusCode)
+                    console.log('SLIDE MATCHER : Non zero exit code : ' + statusCode)
                     reject('Non zero status code')
                 }
             })
@@ -41,6 +41,5 @@ const downloadFile = (filePath, bucketName, key) => {
     s3.getObject(params, (err, data) => {
         if (err) console.error(err);
         fs.writeFileSync(filePath, data.Body.toString());
-        console.log(`${filePath} has been created!`);
     });
 };

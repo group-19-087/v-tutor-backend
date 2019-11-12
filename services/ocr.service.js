@@ -5,20 +5,20 @@ module.exports.runOCR = function() {
   return new Promise((resolve, reject) => {
 
     pathToScript = __dirname + "/python/ocr/main.py"
-    const ocrScript = spawn('python', [pathToScript])
+    const ocrScript = spawn('python3', [pathToScript])
 
     ocrScript.on('exit', (statusCode) => {
       if (statusCode === 0) {
-        console.log('OCR Script exited successfully with code 0')
-        resolve('OCR done')
+        console.log('OCR SERVICE : Script exited successfully with code 0')
+        resolve('ocr done')
       } else {
-        console.log('Non zero exit code : ' + statusCode)
+        console.log('OCR SERVICE : Non zero exit code : ' + statusCode)
         reject('Non zero status code')
       }
     })
 
     ocrScript.stdout.on('data', (data) => {
-      console.log('OCR STDOUT : ' + data.toString())
+      console.log('OCR SERVICE : ' + data.toString())
       // reject(err);
     })
 

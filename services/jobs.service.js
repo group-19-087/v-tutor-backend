@@ -34,10 +34,6 @@ jobQueue.process(function (job, done) {
 
     console.log('FRAME EXTRACTOR : ' + data)
     uploadThumbnail(job.data.bucket, job.data.key)
-
-    console.log('DEBUG : s3 code path' + s3CodeFilePath)
-    console.log('DEBUG : s3 slide path' + s3SlideFilePath)
-
     console.log('JOB HANDLER : Starting Process flow for ' + videoId + '...')
     // run OCR on extracted frames
     // ocrService.runOCR().then(
@@ -46,6 +42,7 @@ jobQueue.process(function (job, done) {
     s3Helpers.checkIfExists(s3CodeFilePath).then(
       (response) => {
         if (response.exists) {
+          console.log("  OCR SERVICE : Running...")
           ocrService.runOCR().then(
             (data) => {
               console.log("  OCR SERVICE : " + data)

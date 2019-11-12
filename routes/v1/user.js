@@ -27,6 +27,6 @@ function getAll (req, res, next) {
 }
 
 function registerUser (req, res, next) {
-  console.log('registeruser')
+  console.log('USER SERVICE : registeruser')
   return userController.saveUser(req, res, next)
 }

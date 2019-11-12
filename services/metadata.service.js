@@ -80,8 +80,7 @@ module.exports.getVideoByStatus = function (status) {
 }
 
 module.exports.saveTranscript = function (id, words){
-    console.log('Inside method');
-    console.log(words);
+    console.log('METADATA SERVICE : ' + words);
     return new Promise(function(resolve, reject){
         try{
             let transcript_sentences = [];
@@ -129,7 +128,7 @@ module.exports.updateMetadataById = function (metaDataId, data) {
     if (err) {
       console.log(err)
     } else {
-      console.log('MetaData updated')
+      console.log('METADATA SERVICE : MetaData updated - ' + metaDataId)
     }
   });
 }
@@ -156,7 +155,6 @@ module.exports.getAll = async function (projection) {
 }
 
 module.exports.search = async function (searchTerm, projection) {
-  console.log("Search term " + searchTerm);
   return MetaData.find({$text: {$search: searchTerm}, status: "published"}, projection).exec();
 }
 

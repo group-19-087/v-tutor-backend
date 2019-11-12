@@ -10,23 +10,23 @@ router.get('/', getAll)
 router.put('/', updateModule)
 
 function addModule (req, res, next) {
-    console.log('tags add tag');
+    console.log('MODULE : tags add tag');
     return monduleController.addNewTag(req, res, next)
 }
 
 function getAll (req, res, next) {
-    console.log('tags get all');
+    console.log('MODULE : tags get all');
     return monduleController.getAllTags(req, res, next)
 }
 
 function updateModule (req, res, next) {
-    console.log('update Module');
+    console.log('MODULE : update Module');
     console.log(req.query);
     return monduleController.updateModule(req, res, next)
 }
 
 function getModuleContent (req, res, next) {
-    console.log('get Module content');
+    console.log('MODULE : get Module content');
     console.log(req.params.id);
     return monduleController.getModuleContent(req, res, next)
 }

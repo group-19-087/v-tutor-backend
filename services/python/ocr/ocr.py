@@ -2,6 +2,51 @@ from PIL import Image # import the necessary packages
 import pytesseract
 import cv2
 import os
+import numpy as np
+from keras.preprocessing import image
+from keras.applications.vgg16 import preprocess_input
+from keras.models import load_model
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+WIDTH = 299
+HEIGHT = 299
+MODEL_FILE = 'models/image_classifier_vgg16.model'
+model = load_model(MODEL_FILE)
+for l in model.layers:
+    l.trainable = False
+
+# ============================================================================================
+
+# ============================================================================================
+
+def predict(model, img):
+    """Run model prediction on image
+    Args:
+        model: keras model
+        img: PIL format image
+    Returns:
+        list of predicted labels and their probabilities 
+    """
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+    preds = model.predict(x)
+    return preds[0]
+
+# ============================================================================================
+
+# ============================================================================================
+
+def predict_frame_label(frame_path):
+    img = image.load_img(frame_path, target_size=(HEIGHT, WIDTH))
+    preds = predict(model, img)
+    if(abs(preds[0] - preds[1]) < 0.4):
+        prediction = 'code'
+    else:
+         prediction = 'code' if np.argmax(preds) == 0 else 'notcode'
+    # print(preds[1] + 'not code') 
+    return prediction
 
 # ============================================================================================
 
@@ -47,19 +92,24 @@ def write_to_disk(string, filename):
 			print ("Creation of the directory %s failed" % save_path)
 		else:  
 			print ("Successfully created the directory %s " % save_path)
-	with open(os.path.join(save_path, output_filename), "w") as ocr_file:
+	with open(os.path.join(save_path, output_filename), "wb") as ocr_file:
 		ocr_file.write(string)
 	return
 
 # ============================================================================================
 
 # ============================================================================================
+
 def run_ocr(image_path, preprocess="thresh"):
 	files = os.listdir(image_path)
-	print("Running OCR...")
+	print("OCR Script starting...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
-		write_to_disk(extract_text(path_to_File, preprocess), file)
+		if (predict_frame_label(path_to_File) == 'code'):
+			print("code present in " + file + " running ocr")
+			write_to_disk(extract_text(path_to_File, preprocess), file)
+		else:
+			print("no code present in " + file + " skipping")
 	print("OCR Completed for all lines")
 	return
 
