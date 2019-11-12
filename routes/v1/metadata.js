@@ -56,7 +56,7 @@ router.post('/:id/questions', (request, response) => {
 
 router.put('/:id/questions', (request, response) => {
     try {
-        metadataService.updateMetadataById(request.params.id, {questions: request.body});
+        metadataService.updateMetadataById(request.params.id, {questions: request.body, questionsStatus: 'done'});
         response.status(200).send('Questions updated successfully');
     } catch (error) {
         response.status(500).send(error);
