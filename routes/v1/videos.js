@@ -46,7 +46,7 @@ var uploadToS3 = function (req, res, next) {
         cb(null, { fieldName: file.fieldname })
       },
       key: function (req, file, cb) {
-        console.log('UPLOAD : ' + req.body)
+        console.log(req.body)
         if (file.fieldname === 'lectureVideo') {
           cb(null, req.body.lectureId + '/' + file.originalname)
         } else if (file.fieldname === 'codeFiles') {
