@@ -49,6 +49,16 @@ module.exports.updateStatus = function (id, data) {
     })
 }
 
+module.exports.updateStatusById = function (id, data) {
+    return new Promise(function (resolve, reject) {
+        MetaData.findOneAndUpdate({id: id }, data).then(function() {
+            resolve({message: 'Record updated'});
+        }).catch(function (err) {
+            reject({message: 'Error ' + err});
+        });
+    });
+}
+
 module.exports.updateCode = function (id, code) {
     return new Promise(function (resolve, reject) {
         MetaData.findOneAndUpdate({id: id}, { $push: { code: code}}).then(function () {
