@@ -27,7 +27,8 @@ jobQueue.process(function (job, done) {
   extractFrames(job.data.bucket, job.data.key).then((data) => {
 
     const videoId = job.data.key.split('/')[0];
-    let jsonResult = null;
+    let codeResult = null;
+    let slideResult = null;
     const s3CodeFilePath = videoId + '/code_files';
     const s3SlideFilePath = videoId + '/lecture_slides';
 
@@ -37,7 +38,7 @@ jobQueue.process(function (job, done) {
     console.log('DEBUG : s3 code path' + s3CodeFilePath)
     console.log('DEBUG : s3 slide path' + s3SlideFilePath)
 
-    console.log('JOB HANDLER : Starting Process flow for ' + videoId +'...')
+    console.log('JOB HANDLER : Starting Process flow for ' + videoId + '...')
     // run OCR on extracted frames
     ocrService.runOCR().then(
       (data) => {
@@ -53,16 +54,17 @@ jobQueue.process(function (job, done) {
                 Promise.all(promiseArray).then(
                   (promiseResults) => {
                     // promiseResults[0] --> data from first promise in array
-                    console.log(" CODE MATCHER : Promise data...");
-                    jsonResult = JSON.parse(promiseResults[0]);
-                    console.log(jsonResult);
-                    metaDataService.updateCode(videoId, jsonResult).then(data => {
-                      console.log("METADATA SERVICE : " + data)
-                    }).catch(err => {
-                      console.log("METADATA SERVICE : " + err)
-                    });
+                    codeResult = JSON.parse(promiseResults[0]);
+                    slideResult = JSON.parse(promiseResults[1]);
                     // promiseResults[1] --> data from second promise in array
-                    console.log("SLIDE MATCHER : " + promiseResults[1]);
+
+                    // TODO: Update slide data
+                    metaDataService.updateMetadataById(videoId, {
+                      code: codeResult ? [codeResult] : [],
+                      slidesStatus: 'done',
+                      codeStatus: 'done',
+                    })
+
                     // Processing of slide promise data
                     cleanup();
                     done();

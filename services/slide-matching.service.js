@@ -24,7 +24,7 @@ module.exports.slideMatching = function (response) {
                 // reject(err);
             })
         } else {
-            resolve('Slide Matching not enabled')
+            resolve(false)
         }
     })
 }

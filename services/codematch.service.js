@@ -89,7 +89,7 @@ module.exports.runCodeMatching = function (response) {
         }
       });
     } else {
-      resolve('Code Matching not enabled')
+      resolve(false)
     }
   })
 }
