@@ -13,7 +13,7 @@ module.exports.slideMatching = function (response) {
             smScript.on('exit', (statusCode) => {
                 if (statusCode === 0) {
                     console.log('Slide Matching Script exited successfully with code 0')
-                    resolve('Slide Matching done')
+                    resolve(true)
                 } else {
                     console.log('Non zero exit code : ' + statusCode)
                     reject('Non zero status code')
