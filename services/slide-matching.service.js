@@ -2,7 +2,7 @@ const fs = require('fs')
 const spawn = require('child_process').spawn
 
 module.exports.slideMatching = function (response) {
-    console.log("SLIDE MATCHER : Starting...");
+    console.log("SLIDE MATCHER : Running...");
     return new Promise((resolve, reject) => {
 
         if (response.exists) {

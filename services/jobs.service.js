@@ -42,6 +42,7 @@ jobQueue.process(function (job, done) {
     s3Helpers.checkIfExists(s3CodeFilePath).then(
       (response) => {
         if (response.exists) {
+          console.log("  OCR SERVICE : Running...")
           ocrService.runOCR().then(
             (data) => {
               console.log("  OCR SERVICE : " + data)

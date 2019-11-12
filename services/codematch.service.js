@@ -4,7 +4,7 @@ const s3Helpers = require('../helpers/s3Helpers')
 
 module.exports.runCodeMatching = function (response) {
   
-  console.log(" CODE MATCHER : Starting...");
+  console.log(" CODE MATCHER : Running...");
   return new Promise((resolve, reject) => {
 
     if (response.exists) {
