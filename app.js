@@ -112,7 +112,6 @@ mongoose.connect('mongodb://'+ mongoUser +':'+ mongoPass +
             }
 
         });
-        console.log('APP : ' + JSON.stringify(event));
     });
 })
     .catch((err) => {

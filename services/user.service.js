@@ -17,7 +17,6 @@ async function authenticate ({ username, password }) {
     }, (err, res) => {
       let token
       if (err) {
-        console.log(err)
         reject(err)
       } else if (res) {
         token = jwt.sign({

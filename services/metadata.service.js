@@ -88,7 +88,6 @@ module.exports.saveTranscript = function (id, words){
             let count = 0;
             let time = 0;
             for (let i = 0; i < words.length; i++){
-                console.log(words[i]);
                 paragraph += words[i].text + ' ';
                 count += 1;
                 if (count === 1){

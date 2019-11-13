@@ -38,7 +38,6 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             lectureId: lectureId,
             document: text
         }
-        console.log('QUESTION SERVICE : result >>> ', data);
         axios.post('http://13.235.185.50/generate', data).then((response) => {
             console.log('QUESTION SERVICE : ' + response.data);
             // Update status to processing
@@ -51,6 +50,6 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             console.log(err); 
         })
     }).catch(err => {
-        console.log('QUESTION SERVICE : err >>>', err);
+        console.log('QUESTION SERVICE: ', err);
     })
 }
