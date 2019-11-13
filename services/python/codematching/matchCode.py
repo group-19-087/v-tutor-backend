@@ -26,8 +26,7 @@ def match(path_to_code_file, path_to_frames, title):
 
     if len(os.listdir(path_to_frames)) == 0:
         print json.dumps(data)
-    else:    
-        print("Directory is not empty")
+    else:
         # lines_in_source_code.reverse()
         frames = os.listdir(path_to_frames)
         sorted_frames = sorted(frames, reverse = True) # read frames in reverse
