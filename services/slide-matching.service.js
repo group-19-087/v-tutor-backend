@@ -6,6 +6,7 @@ module.exports.slideMatching = function (response) {
     return new Promise((resolve, reject) => {
 
         if (response.exists) {
+            resolve(true)
             const pathToScript = __dirname + "/python/slide-matching/slide-matching.py"
             const id = response.contents[0].Key.slice(response.content[0].Key.lastIndexOf('/') + 1);
             const lectureSlides = downloadFile('/home/', 'cdap-19-087-vtutor-lecturematerials', id + 'slides.pdf')
