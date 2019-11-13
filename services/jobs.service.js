@@ -78,6 +78,10 @@ jobQueue.process(function (job, done) {
                     }
                   ).catch((err) => {
                     console.log(err);
+                    metaDataService.updateMetadataById(videoId, {
+                      slidesStatus: 'done',
+                      codeStatus: 'done',
+                    })
                     cleanup();
                     done();
                   })
