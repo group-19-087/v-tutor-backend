@@ -17,14 +17,14 @@ var promiseArray = [];
 var cleanup = function () {
   emptyFrameFolder();
   emptyOcrFolder();
-  console.log('  JOB SERVICE : job completed')
+  console.log('JOB SERVICE : job completed')
   promiseArray.length = 0;
 }
 
 jobQueue.process(function (job, done) {
 
   // handle frame extraction
-  console.log('  JOB SERVICE : job started')
+  console.log('JOB SERVICE : job started')
   extractFrames(job.data.bucket, job.data.key).then((data) => {
 
     const videoId = job.data.key.split('/')[0];
@@ -40,10 +40,10 @@ jobQueue.process(function (job, done) {
     s3Helpers.checkIfExists(s3CodeFilePath).then(
       (response) => {
         if (response.exists) {
-          console.log("  OCR SERVICE : Codefile exists Running OCR...")
+          console.log("OCR SERVICE : Codefile exists Running OCR...")
           ocrService.runOCR().then(
             (data) => {
-              console.log("  OCR SERVICE : " + data)
+              console.log("OCR SERVICE : " + data)
               console.log('JOB HANDLER : Start codematching...')
               promiseArray.push(codeMatchService.runCodeMatching(response));
               // check if slides folder exists on s3
