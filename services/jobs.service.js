@@ -45,7 +45,7 @@ jobQueue.process(function (job, done) {
             (data) => {
               console.log("OCR SERVICE : " + data)
               console.log('JOB HANDLER : Start codematching...')
-              promiseArray.push(codeMatchService.runCodeMatching(response));
+              promiseArray.push(codeMatchService.runCodeMatching(response).catch(error => { return error }));
               // check if slides folder exists on s3
               console.log('JOB HANDLER : Checking if Slides exist')
               s3Helpers.checkIfExists(s3SlideFilePath).then(
@@ -57,7 +57,7 @@ jobQueue.process(function (job, done) {
                     console.log('JOB HANDLER : Slides do not exist')
                   }
 
-                  promiseArray.push(slideMatchingService.slideMatching(response));
+                  promiseArray.push(slideMatchingService.slideMatching(response).catch(error => { return error }));
 
                   Promise.all(promiseArray).then(
                     (promiseResults) => {
@@ -65,7 +65,11 @@ jobQueue.process(function (job, done) {
                       codeResult = JSON.parse(promiseResults[0]);
                       slideResult = JSON.parse(promiseResults[1]);
                       // promiseResults[1] --> data from second promise in array
-
+                      console.log('Promise.all results : ')
+                      console.log({
+                        codeResult : codeResult,
+                        slideResult : slideResult
+                      })
                       // TODO: Update slide data
                       metaDataService.updateMetadataById(videoId, {
                         code: codeResult,
