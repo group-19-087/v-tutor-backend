@@ -29,8 +29,8 @@ slides = []
 # config = ConfigParser.ConfigParser()
 # config.readfp(open(r'config'))
 
-aws_access_key_id = "AKIA5BI4TMPGSXRAMUQ6"
-aws_secret_access_key = "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"
+aws_access_key_id = ""
+aws_secret_access_key = ""
 
 url = sys.argv[1]
 myfile = requests.get(url)
