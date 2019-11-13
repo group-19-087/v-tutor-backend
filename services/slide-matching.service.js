@@ -17,12 +17,12 @@ module.exports.slideMatching = function (response) {
                     resolve(true)
                 } else {
                     console.log('SLIDE MATCHER : Non zero exit code : ' + statusCode)
-                    reject('Non zero status code')
+                    resolve(false)
                 }
             })
 
             smScriptScript.stderr.on('data', (err) => {
-                console.log('Error : ' + err)
+                console.log('SLIDEMATCH ERROR : ' + err)
                 // reject(err);
             })
         } else {

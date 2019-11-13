@@ -116,7 +116,6 @@ router.post('/notifyuploaded', function (req, res, next) {
     res.send('x-amz-sns-message-type header not found');
 
   } else {
-    console.log(msgType)
     if (msgType === 'SubscriptionConfirmation') {
 
       console.log('SNS : This is a subscription confirmation message');
@@ -157,12 +156,12 @@ router.post('/notifyuploaded', function (req, res, next) {
       axios.post('https://api.assemblyai.com/v2/transcript', requestData,
         { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
         .then((result) => {
-          console.log('ASSEMBLY AI : Response recieved : ' + result);
+          console.log('ASSEMBLY AI : Response recieved');
             //Updating topicsStatus as processing
             metaDataService.updateStatus(id, {"topicsStatus": "processing"}).then(function (data) {
-                console.log('METADATA SERVICE : ' + data.message)
+                console.log('METADATA SERVICE : topic status updated')
             }).catch(function (err) {
-                console.log('METADATA SERVICE :' + err.message);
+                console.log('METADATA SERVICE ERROR :' + err.message);
             });
         }).catch((err) => {
           console.log('ASSEMBLY AI : Error = ' + err)
@@ -191,26 +190,26 @@ router.post('/notify-transcription/:id', function (req, res) {
 
     // Saving the transcript in DB
     metaDataService.saveTranscript(req.params.id, data.data.result.words).then(function (data) {
-      console.log('METADATA SERVICE : ' + data.message)
+      console.log('METADATA SERVICE : Transcript saved')
     }).catch(function (err) {
-      console.log(err.message);
+      console.log('METADATA SERVICE ERROR : ' + err.message);
     });
 
     // Saving Topics
     metaDataService.updateTopics(req.params.id, { "topics": data.data.result.timestamps }).then(function (data) {
-      console.log('METADATA SERVICE : ' + data.message)
+      console.log('METADATA SERVICE : topics saved')
     }).catch(function (err) {
-      console.log(err.message);
+      console.log('METADATA SERVICE ERROR : ' + err.message);
     });
   }).catch((err) => {
-    console.log('Error: ' + err)
+    console.log('METADATA SERVICE ERROR : ' + err)
     res.status(err.status).send(err.result);
   });
   //Updating topicsStatus as done
     metaDataService.updateStatus(req.params.id, {"topicsStatus": "done"}).then(function (data) {
-        console.log('METADATA SERVICE : ' + data.message)
+        console.log('METADATA SERVICE : status updated')
     }).catch(function (err) {
-        console.log(err.message);
+        console.log('METADATA SERVICE ERROR : ' + err.message);
     });
 });
 

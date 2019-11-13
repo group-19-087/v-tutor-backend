@@ -19,6 +19,7 @@ module.exports.runCodeMatching = function (response) {
           console.log(" CODE MATCHER : code file doesnt  exist on disk");
           // download file
           s3Helpers.downloadFile(saveFilePath, response.contents[0].Key).then(msg => {
+            console.log('S3 : ' + msg)
             // Run codematching after file download
             const matchScript = spawn('python', [
               pathToScript,
@@ -32,7 +33,7 @@ module.exports.runCodeMatching = function (response) {
                 resolve(output)
               } else {
                 console.log('CODE MATCHER : Non zero exit code : ' + statusCode)
-                reject('CODE MATCHER : Non zero status code')
+                reject([])
               }
             })
 
@@ -41,16 +42,16 @@ module.exports.runCodeMatching = function (response) {
             })
 
             matchScript.stderr.on('data', (err) => {
-              console.log('Error : ' + err)
+              console.log('CODE MATCHER ERROR : ' + err)
             })
 
           }).catch(err => {
-            console.log(err)
+            console.log('CODE MATCHER ERROR : ' + err)
           })
         } else {
           fs.unlink(saveFilePath, function (err) {
             if (err) {
-              console.log(err);
+              console.log('CODE MATCHER ERROR : ' + err);
             } else {
               //download file after deleting
               console.log('CODE MATCHER : temporary codefile deleted successfully');
@@ -68,7 +69,7 @@ module.exports.runCodeMatching = function (response) {
                     resolve(output)
                   } else {
                     console.log('CODE MATCHER : Non zero exit code : ' + statusCode)
-                    reject('CODE MATCHER : Non zero status code')
+                    reject([])
                   }
                 })
 
@@ -77,10 +78,10 @@ module.exports.runCodeMatching = function (response) {
                 })
 
                 matchScript.stderr.on('data', (err) => {
-                  console.log('Error : ' + err)
+                  console.log('CODE MATCHER ERROR : ' + err)
                 })
               }).catch(err => {
-
+                console.log('S3 ERROR : ' + err)
               })
             }
           });

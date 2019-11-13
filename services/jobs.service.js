@@ -24,6 +24,7 @@ var cleanup = function () {
 jobQueue.process(function (job, done) {
 
   // handle frame extraction
+  console.log('  JOB SERVICE : job started')
   extractFrames(job.data.bucket, job.data.key).then((data) => {
 
     const videoId = job.data.key.split('/')[0];
@@ -35,22 +36,29 @@ jobQueue.process(function (job, done) {
     console.log('FRAME EXTRACTOR : ' + data)
     uploadThumbnail(job.data.bucket, job.data.key)
     console.log('JOB HANDLER : Starting Process flow for ' + videoId + '...')
-    // run OCR on extracted frames
-    // ocrService.runOCR().then(
-    //   (data) => {
-    //     console.log("  OCR SERVICE : " + data)
+    console.log('JOB HANDLER : Checking if Codefile exists')
     s3Helpers.checkIfExists(s3CodeFilePath).then(
       (response) => {
         if (response.exists) {
-          console.log("  OCR SERVICE : Running...")
+          console.log("  OCR SERVICE : Codefile exists Running OCR...")
           ocrService.runOCR().then(
             (data) => {
               console.log("  OCR SERVICE : " + data)
+              console.log('JOB HANDLER : Start codematching...')
               promiseArray.push(codeMatchService.runCodeMatching(response));
               // check if slides folder exists on s3
+              console.log('JOB HANDLER : Checking if Slides exist')
               s3Helpers.checkIfExists(s3SlideFilePath).then(
                 (response) => {
+                  
+                  if (response.exists) { 
+                    console.log('JOB HANDLER : Slides exist')
+                  } else {
+                    console.log('JOB HANDLER : Slides do not exist')
+                  }
+
                   promiseArray.push(slideMatchingService.slideMatching(response));
+
                   Promise.all(promiseArray).then(
                     (promiseResults) => {
                       // promiseResults[0] --> data from first promise in array
