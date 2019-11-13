@@ -60,7 +60,7 @@ jobQueue.process(function (job, done) {
 
                       // TODO: Update slide data
                       metaDataService.updateMetadataById(videoId, {
-                        code: codeResult ? [codeResult] : [],
+                        code: codeResult,
                         slidesStatus: 'done',
                         codeStatus: 'done',
                       })
