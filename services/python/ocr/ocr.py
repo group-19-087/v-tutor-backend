@@ -106,7 +106,7 @@ def run_ocr(image_path, preprocess="thresh"):
 	print("OCR Script starting...")
 	for file in files:
 		path_to_File = os.path.join(image_path, file)
-		if (True):
+		if (predict_frame_label(path_to_File) == 'code'):
 			print("code present in " + file + " running ocr")
 			write_to_disk(extract_text(path_to_File, preprocess), file)
 		else:
