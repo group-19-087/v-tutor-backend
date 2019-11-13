@@ -80,7 +80,6 @@ module.exports.getVideoByStatus = function (status) {
 }
 
 module.exports.saveTranscript = function (id, words){
-    console.log('METADATA SERVICE : ' + words);
     return new Promise(function(resolve, reject){
         try{
             let transcript_sentences = [];

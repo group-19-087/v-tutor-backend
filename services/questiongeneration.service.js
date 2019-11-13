@@ -42,7 +42,6 @@ module.exports.generateQuestions = function(lectureId, keyword) {
             console.log('QUESTION SERVICE : ' + response.data);
             // Update status to processing
             metadataservice.updateStatusById(lectureId, {questionsStatus: 'processing'}).then((res) => {
-                console.log('METADATA SERVICE : ' + res);
             }).catch((err) => {
                 console.log(err);
             })
