@@ -102,6 +102,16 @@ def write_to_disk(string, filename):
 # ============================================================================================
 
 def run_ocr(image_path, preprocess="thresh"):
+
+	save_path = "/home/ubuntu/v-tutor-backend/v-tutor-backend/ocroutput"
+	if not (os.path.exists(save_path)):
+		try:  
+			os.mkdir(save_path)
+		except OSError:  
+			print ("Creation of the directory %s failed" % save_path)
+		else:  
+			print ("Successfully created the directory %s " % save_path)
+			
 	files = os.listdir(image_path)
 	print("OCR Script starting...")
 	for file in files:

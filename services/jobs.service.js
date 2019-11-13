@@ -17,14 +17,14 @@ var promiseArray = [];
 var cleanup = function () {
   emptyFrameFolder();
   emptyOcrFolder();
-  console.log('  JOB SERVICE : job completed')
+  console.log('JOB SERVICE : job completed')
   promiseArray.length = 0;
 }
 
 jobQueue.process(function (job, done) {
 
   // handle frame extraction
-  console.log('  JOB SERVICE : job started')
+  console.log('JOB SERVICE : job started')
   extractFrames(job.data.bucket, job.data.key).then((data) => {
 
     const videoId = job.data.key.split('/')[0];
@@ -40,12 +40,12 @@ jobQueue.process(function (job, done) {
     s3Helpers.checkIfExists(s3CodeFilePath).then(
       (response) => {
         if (response.exists) {
-          console.log("  OCR SERVICE : Codefile exists Running OCR...")
+          console.log("OCR SERVICE : Codefile exists Running OCR...")
           ocrService.runOCR().then(
             (data) => {
-              console.log("  OCR SERVICE : " + data)
+              console.log("OCR SERVICE : " + data)
               console.log('JOB HANDLER : Start codematching...')
-              promiseArray.push(codeMatchService.runCodeMatching(response));
+              promiseArray.push(codeMatchService.runCodeMatching(response).catch(error => { return error }));
               // check if slides folder exists on s3
               console.log('JOB HANDLER : Checking if Slides exist')
               s3Helpers.checkIfExists(s3SlideFilePath).then(
@@ -57,7 +57,7 @@ jobQueue.process(function (job, done) {
                     console.log('JOB HANDLER : Slides do not exist')
                   }
 
-                  promiseArray.push(slideMatchingService.slideMatching(response));
+                  promiseArray.push(slideMatchingService.slideMatching(response).catch(error => { return error }));
 
                   Promise.all(promiseArray).then(
                     (promiseResults) => {
@@ -65,7 +65,11 @@ jobQueue.process(function (job, done) {
                       codeResult = JSON.parse(promiseResults[0]);
                       slideResult = JSON.parse(promiseResults[1]);
                       // promiseResults[1] --> data from second promise in array
-
+                      console.log('Promise.all results : ')
+                      console.log({
+                        codeResult : codeResult,
+                        slideResult : slideResult
+                      })
                       // TODO: Update slide data
                       metaDataService.updateMetadataById(videoId, {
                         code: codeResult,
@@ -78,6 +82,10 @@ jobQueue.process(function (job, done) {
                     }
                   ).catch((err) => {
                     console.log(err);
+                    metaDataService.updateMetadataById(videoId, {
+                      slidesStatus: 'done',
+                      codeStatus: 'done',
+                    })
                     cleanup();
                     done();
                   })
