@@ -7,7 +7,7 @@ const s3 = new AWS.S3()
 const tmpDirectory = __dirname + '/extracted'
 
 module.exports.extract = function (bucket, key) {
-  const params = { Bucket: bucket, Key: key, Expires: 300 }
+  const params = { Bucket: bucket, Key: key, Expires: 86400  }
   const url = s3.getSignedUrl('getObject', params)
 
   return new Promise((resolve, reject) => {
