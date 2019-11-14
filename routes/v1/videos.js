@@ -153,19 +153,19 @@ router.post('/notifyuploaded', function (req, res, next) {
       };
 
       // Calling assemblyai for transcribing the video
-      // axios.post('https://api.assemblyai.com/v2/transcript', requestData,
-      //   { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
-      //   .then((result) => {
-      //     console.log('ASSEMBLY AI : Response recieved');
-      //       //Updating topicsStatus as processing
-      //       metaDataService.updateStatus(id, {"topicsStatus": "processing"}).then(function (data) {
-      //           console.log('METADATA SERVICE : topic status updated')
-      //       }).catch(function (err) {
-      //           console.log('METADATA SERVICE ERROR :' + err.message);
-      //       });
-      //   }).catch((err) => {
-      //     console.log('ASSEMBLY AI : Error = ' + err)
-      //   })
+      axios.post('https://api.assemblyai.com/v2/transcript', requestData,
+        { headers: { 'Authorization': 'c91036f1ae3547759bb56297e28d9730', 'Content-Type': 'application/json' } })
+        .then((result) => {
+          console.log('ASSEMBLY AI : Response recieved');
+            //Updating topicsStatus as processing
+            metaDataService.updateStatus(id, {"topicsStatus": "processing"}).then(function (data) {
+                console.log('METADATA SERVICE : topic status updated')
+            }).catch(function (err) {
+                console.log('METADATA SERVICE ERROR :' + err.message);
+            });
+        }).catch((err) => {
+          console.log('ASSEMBLY AI : Error = ' + err)
+        })
     }
 
   }
