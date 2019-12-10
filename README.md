@@ -36,6 +36,9 @@ Please ensure that the PATH variable is set so that both these commands can be e
 ## Running the application
 Install the required npm packages.
 
+    cd v-tutor-backend
+    npm install
+
 The application can be run using the start script
 
     npm start
